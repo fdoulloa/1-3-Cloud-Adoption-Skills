@@ -1,0 +1,7 @@
+interface:
+  display_name: "Karmada K8s Switch Skill"
+  short_description: "Karmada lab and verified failover PoC"
+  default_prompt: "Use $karmada-k8s-switch-skill to install Karmada locally, deploy the verified member1/member2 switch demo, and validate failover or failback."
+
+policy:
+  allow_implicit_invocation: true
