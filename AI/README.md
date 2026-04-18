@@ -6,6 +6,7 @@ This domain contains Level 2 use cases for AI-oriented Huawei Cloud adoption ski
 
 - [MaaS and Token Services](./MaaS-and-Token-Services/README.md): Consume model APIs and token-based AI services with attention to model choice, cost, and latency.
 - [AI Infrastructure](./AI-Infrastructure/README.md): Build the compute, platform, and environment foundation for training and inference workloads.
+- [AI Coding](./AI-Coding/README.md): Apply AI to software delivery through coding assistance, code generation, refactoring support, and engineering productivity improvement.
 - [AI Development](./AI-Development/README.md): Improve engineering productivity through code assistants, AI coding, test generation, and development Q and A.
 - [Agent Platform](./Agent-Platform/README.md): Orchestrate multi-agent workflows, tool calls, and automation patterns for business tasks.
 - [Data Engineering for AI](./Data-Engineering-for-AI/README.md): Prepare prompts, knowledge bases, retrieval flows, and data pipelines that support AI applications.
