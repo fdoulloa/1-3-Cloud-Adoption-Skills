@@ -1,0 +1,4 @@
+interface:
+  display_name: "Databricks to Huawei Cloud"
+  short_description: "Migrate Databricks Spark flows to OBS and MRS"
+  default_prompt: "Use $databricks-to-huawei-cloud-skill to analyze a Databricks workload and produce a Huawei Cloud migration plan with parity checks."
