@@ -1,0 +1,32 @@
+# Environment files (credentials)
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+
+# Virtual environments
+css-benchmark-env/
+venv/
+ENV/
+
+# Results and logs
+results_*/
+*.log
+*.csv
+*.html
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
