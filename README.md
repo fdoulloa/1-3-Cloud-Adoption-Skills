@@ -1,12 +1,17 @@
 # Huawei Cloud Adoption Skills
 
-## Purpose
+This repository defines a practical skill framework for Huawei Cloud adoption work. It is designed to help AI coding agents, delivery engineers, architects, and solution teams reuse Huawei Cloud best practices through scenario-based skill packages.
 
-This repository defines a practical skill framework for Huawei Cloud adoption work.
+An AI skill in this repository is not just a prompt. It is a reusable capability unit built around a cloud scenario, where AI helps with understanding, design, migration, operations, development, analysis, or optimization.
 
-Here, an AI skill is not just the ability to write prompts. It is a reusable capability unit built around a cloud scenario, where AI is used to support understanding, design, migration, operations, development, analysis, or optimization.
+The framework now includes reusable support for:
 
-Each AI skill should include five elements:
+- **SQL Server migration** scenarios, including SQL Server to PostgreSQL modernization through Babelfish.
+- **MaaS-backed AI coding** scenarios, including Claude Code SDK, Claude Code router, Pi Coding Agent, OpenShift Dev Spaces, and LiteLLM proxy configuration.
+- **AI application and observability** scenarios, including RAGFlow, Langfuse, OpenLLMetry, and telecom call center AI packages.
+- **Codex and other coding agents** that can consume `SKILL.md`, `references/`, `scripts/`, and reusable demo assets.
+
+Each skill should include:
 
 - Scenario: what business problem or cloud scenario it addresses
 - Knowledge: what cloud products, architecture, and domain logic are required
@@ -14,9 +19,69 @@ Each AI skill should include five elements:
 - Method: how AI is embedded into the delivery process
 - Output and validation: what is produced and how the result is verified
 
+## Agent Skill Index
+
+Use this index when Codex, Claude Code, or another AI agent needs to locate the right reusable skill quickly. Start from the business scenario, then open the linked skill folder. The child skill `README.md` gives the repository-facing summary, while `SKILL.md` contains the agent-facing workflow and trigger rules when present.
+
+| Domain | Use Case | Skill | Use When |
+| --- | --- | --- | --- |
+| Cloud Foundation | Security Foundation | [CFW Finance Skill](./Cloud-Foundation/Security-Foundation/CFW-Finance-Skill/README.md) | Configure Huawei Cloud Firewall for finance, banking, PCI DSS, IPS, ACL, logging, alarm, or compliance-oriented security baselines. |
+| Application Modernization | Application Migration | [Kafka GaussDB Trading Skill](./Application-Modernization/Application-Migration/Kafka-GaussDB-Trading-Skill/README.md) | Design or migrate high-frequency transaction systems using DMS for Kafka plus GaussDB, Java consumers, idempotency, partitioning, retry, and DLQ patterns. |
+| Application Modernization | Database Migration | [GaussDB Adaptation Skill](./Application-Modernization/Database-Migration/GaussDB-Adaptation-Skill/README.md) | Port SQL Server or PostgreSQL code to Huawei GaussDB or openGauss-compatible environments, including SQL dialect, driver, auth, and bulk-load adaptation. |
+| Application Modernization | Database Migration | [SQLServer PostgreSQL Babelfish Finance Demo](./Application-Modernization/Database-Migration/SQLServer-postgreSQL-babelfish-finance-demo/Readme.md) | Run a finance-focused SQL Server to PostgreSQL migration demo through Babelfish, covering banking customers, accounts, payments, risk alerts, views, stored procedures, and parity validation. |
+| Application Modernization | DevOps and PaaS | [Karmada K8s Switch Skill](./Application-Modernization/DevOps-and-PaaS/karmada-k8s-switch-skill/README.md) | Prepare a Karmada lab, install and verify Karmada, deploy multi-cluster failover PoCs, switch traffic, or validate cutover behavior. |
+| Big Data | Databricks Migration | [Databricks to Huawei Cloud Skill](./Big-Data/Databricks-to-Huawei-Cloud-Skill/README.md) | Migrate Databricks tables, notebooks, SQL warehouse flows, or Spark pipelines to OBS, MRS Spark, Hive, and curated Parquet patterns. |
+| Big Data | Data Warehouse Migration | [Teradata to Huawei DWS Skill](./Big-Data/Data-Warehouse-Migration/Teradata-to-Huawei-DWS-Skill/README.md) | Build, migrate, validate, and optimize a Teradata-to-Huawei-Cloud-DWS finance warehouse demo with SQL compatibility scans, OBS load templates, report parity checks, and migration reports. |
+| Big Data | Big Data Platform Migration and Upgrade | [MRS DWS Finance Skill](./Big-Data/Big-Data-Platform-Migration-and-Upgrade/MRS-DWS-Finance-Skill/README.md) | Build financial risk-control pipelines with OBS, MRS, and DWS for risk scoring, AML/KYC, anomaly detection, compliance, and reporting. |
+| Big Data | Big Data Platform Migration and Upgrade | [Cloudera to Huawei Cloud MRS Migration Skill](./Big-Data/Big-Data-Platform-Migration-and-Upgrade/Cloudera-to-Huawei-MRS-Skill/README.md) | Migrate CDH or HDP Hadoop, Hive, Spark, and Impala workloads to Huawei Cloud MRS with OBS data landing, Hive external table migration, Spark SQL conversion, and parity validation. |
+| AI | AI Applications | [Telco Call Center AI Skill](./AI/AI-Applications/Telco-Call-Center-AI-Skill/README.md) | Build or pitch AI-powered telecom customer intelligence, AICC demos, call analytics, churn prediction, or executive POCs on Huawei Cloud. |
+| AI | AI Applications | [RAGFlow Huawei MaaS](./AI/AI-Applications/ragflow-huawei-maas/SKILL.md) | Deploy RAGFlow with Docker Compose, connect it to Huawei Cloud MaaS through the OpenAI-compatible provider, register `glm-5.1`, and validate UI/API/LLM calls without exposing keys. |
+| AI | AI Applications | [CSS Log Query Assistant](./AI/AI-Applications/css-log-assistant/README.md) | Build a natural language log query assistant on Huawei Cloud CSS (Elasticsearch) + MAAS GLM 5.1 for Latin American food delivery operations, with Terraform infrastructure, synthetic log generation, and Streamlit UI with real-time thinking display. |
+| AI | Specialized Migration Operations | [MGC Cross-Region Migration](./AI/host_migration/README.md) | Execute and troubleshoot Huawei Cloud cross-region server migration with MGC/SMS and Terraform, including SMS-first execution, rsync fallback for `SMS.6504`, task cleanup, quota checks, and reusable postmortem assets. |
+| AI | AI Coding | [Claude Code SDK Agent MaaS Skill](./AI/AI-Coding/Claude-Code-SDK-Agent-MaaS-Skill/README.md) | Configure Claude Code or Claude Agent SDK through a local Anthropic Messages API compatible proxy backed by Huawei Cloud MaaS. |
+| AI | AI Coding | [Claude Code Huawei MaaS](./AI/AI-Coding/claude-code-huawei-maas/README.md) | Route Claude Code through claude-code-router to Huawei Cloud MaaS, configure `glm-5.1`, tune context/output limits, and optionally add Z.ai web-search-prime MCP search. |
+| AI | AI Coding | [OpenHands Huawei MaaS](./AI/AI-Coding/openhands-huawei-maas/README.md) | Configure OpenHands Web GUI or CLI to use Huawei Cloud MaaS through an OpenAI-compatible endpoint with safe API key handling, local Docker startup, CLI setup, and MaaS connectivity verification. |
+| AI | AI Coding | [OpenShift Huawei Cloud MaaS Skill](./AI/AI-Coding/OpenShift-Huawei-Cloud-MaaS-Skill/README.md) | Connect OpenShift Dev Spaces or Eclipse Che browser-based VS Code with Cline and Huawei Cloud MaaS through an OpenAI-compatible endpoint. |
+| AI | AI Coding | [Pi Huawei MaaS Cross Platform](./AI/AI-Coding/pi-huawei-maas-cross-platform/README.md) | Configure Pi Coding Agent on Windows or Linux to use Huawei Cloud ModelArts MaaS through an OpenAI-compatible endpoint, preserving platform-specific config paths and model registry casing. |
+| AI | AI Development | [LiteLLM Huawei MaaS Single ECS](./AI/AI-Development/LiteLLM-Huawei-MaaS-Single-ECS/README.md) | Deploy LiteLLM Proxy on one Huawei Cloud ECS host with local Redis, PostgreSQL, systemd services, MaaS routing, and multi-user token proxying. |
+| AI | Responsible AI and Governance | [Langfuse LLM Observability](./AI/Responsible-AI-and-Governance/langfuse-llm-observability/SKILL.md) | Deploy or integrate Langfuse for LLM tracing, generations, usage, latency, cost, errors, evaluations, prompt management, and observability workflows. |
+| AI | Responsible AI and Governance | [OpenLLMetry Huawei MaaS Agent](./AI/Responsible-AI-and-Governance/openllmetry-huawei-maas-agent/SKILL.md) | Instrument Huawei MaaS-backed agents with OpenLLMetry, Traceloop, and OpenTelemetry while preventing API keys and prompt content from leaking into telemetry. |
+
+## How To Navigate This Repository
+
+1. Identify the business scenario, not the model technique.
+2. Choose the Level 1 domain: Cloud Foundation, Application Modernization, Big Data, or AI.
+3. Choose the Level 2 use case folder that matches the delivery scenario.
+4. Open the child skill folder when a concrete reusable package exists.
+5. Read `README.md` for the human-readable overview and `SKILL.md` for the agent-facing workflow.
+6. Use bundled `references/`, `scripts/`, `assets/`, or `examples/` only when the skill package provides them.
+
+## Agent Runtime Support
+
+The skill packages are written so they can be used by multiple AI coding agents.
+
+- **Codex**: use `SKILL.md` as the agent-facing workflow, then load `references/` or run bundled scripts only when needed.
+- **Claude Code**: use the same `SKILL.md` and reusable assets as task context. For Huawei Cloud MaaS-backed Claude Code setup, start from the Claude Code SDK Agent MaaS skill or the Claude Code Huawei MaaS router skill in the AI Coding domain.
+- **Other coding agents**: use the repository index to locate the scenario package, then treat `README.md` or `Readme.md` as the human overview and `SKILL.md` as the operational instruction set.
+
+## Level 1 Domains
+
+The repository follows the `1+3` Huawei Cloud adoption domain structure:
+
+- [Cloud Foundation](./Cloud-Foundation/README.md): baseline cloud governance, landing zones, networking, resilience, security, and operations.
+- [Application Modernization](./Application-Modernization/README.md): migration, refactoring, platform modernization, DevOps, workspace, and database modernization.
+- [Big Data](./Big-Data/README.md): data warehouse migration, big data platform transformation, governance, analytics, and AI-ready data foundations.
+- [AI](./AI/README.md): model consumption, AI infrastructure, development productivity, agent platforms, data engineering, governance, and AI applications.
+
+## Level 2 Use Cases
+
+Each Level 1 domain contains Level 2 use case directories. This layer groups skills by delivery scenarios such as landing zones, migration, data governance, agent platforms, AI coding, or AI-ready data foundations.
+
+Use the Level 2 folders as stable places to add future child skill packages. A child skill package should usually contain a short `README.md`, an optional `SKILL.md`, and reusable assets such as references, scripts, templates, or examples.
+
 ## Design Principles
 
-This framework follows five core principles:
+This framework follows five principles:
 
 1. Start from cloud scenarios, then map AI capabilities.
 2. Every skill must connect to a real use case.
@@ -24,33 +89,11 @@ This framework follows five core principles:
 4. Every skill must have a maturity level.
 5. Every skill must be measurable against business outcomes.
 
-The goal is to organize skills by business value, cloud scenario, and delivery action, instead of organizing them only by model techniques such as prompting, RAG, agents, or fine-tuning.
+The goal is to organize skills by business value, cloud scenario, and delivery action instead of organizing them only by model techniques such as prompting, RAG, agents, or fine-tuning.
 
 ## General Skills
 
 General Skills are the common foundation required across all Huawei Cloud adoption work. They are not limited to one cloud service, one project type, or one delivery team.
-
-## Level 1 Domains
-
-The first level of the framework follows the established `1+3` domain structure. These domains will host different skill sets as the repository grows:
-
-- [Cloud Foundation](./Cloud-Foundation/README.md)
-- [Application Modernization](./Application-Modernization/README.md)
-- [Big Data](./Big-Data/README.md)
-- [AI](./AI/README.md)
-
-The General Skills defined in this document apply across all four Level 1 domains.
-
-## Level 2 Use Cases
-
-Under each Level 1 domain, the framework is further organized by Level 2 use cases. This is the layer where skills are grouped by delivery scenarios such as landing zones, migration, data governance, agent platforms, or AI-ready data foundations.
-
-Each Level 1 domain contains its own Level 2 use case directories and English descriptions:
-
-- [Cloud Foundation](./Cloud-Foundation/README.md)
-- [Application Modernization](./Application-Modernization/README.md)
-- [Big Data](./Big-Data/README.md)
-- [AI](./AI/README.md)
 
 ### G1. Scenario Understanding and Requirement Abstraction
 
@@ -116,4 +159,4 @@ The framework is intended to support:
 - Revenue growth
 - Asset accumulation
 
-This repository starts with the general framework. Future additions can extend the structure into domain-specific and use-case-specific Huawei Cloud Adoption Skills.
+This repository starts with a general framework and grows through domain-specific, use-case-specific Huawei Cloud Adoption Skills.
