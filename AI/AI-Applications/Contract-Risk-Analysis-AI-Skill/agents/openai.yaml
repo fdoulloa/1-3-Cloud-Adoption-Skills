@@ -1,0 +1,4 @@
+interface:
+  display_name: "Contract Risk Analysis AI"
+  short_description: "OCR + LLM pipeline for document risk scoring on Huawei Cloud"
+  default_prompt: "Use contract-risk-analysis-ai-skill to build an end-to-end document risk analysis pipeline: upload a document, extract text via OCR, score risk with LLM, store results in DWS, and expose via API/dashboard."

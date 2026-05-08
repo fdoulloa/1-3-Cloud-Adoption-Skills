@@ -9,6 +9,11 @@ This use case covers end-user and business-facing AI solutions such as chatbots,
 - Anti-fraud assistance patterns
 - Industry Q and A applications
 - Operations assistant workflows
+- Document risk analysis and compliance automation
+
+## Included Skills
+
+- [Contract Risk Analysis AI Skill](./Contract-Risk-Analysis-AI-Skill/): End-to-end OCR + LLM pipeline for document risk scoring with serverless architecture on Huawei Cloud.
 
 ## Expected Outputs
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Simple ChatBI"
+  short_description: "Conversational BI with text-to-SQL, auto visualization, and multi-provider fallback"
+  default_prompt: "Use simple-chatbi-skill to build a conversational BI experience: natural language questions → SQL generation → DWS execution → auto-selected visualizations → follow-up suggestions."

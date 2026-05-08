@@ -9,6 +9,11 @@ This use case focuses on natural language analytics experiences that allow busin
 - Metric question answering
 - Automated analysis report generation
 - Semantic layer and prompt alignment
+- Conversational BI with text-to-SQL
+
+## Included Skills
+
+- [Simple ChatBI Skill](./Simple-ChatBI-Skill/): Foundational conversational BI with text-to-SQL, auto visualization, multi-provider fallback, and synthetic data generation.
 
 ## Expected Outputs
 
