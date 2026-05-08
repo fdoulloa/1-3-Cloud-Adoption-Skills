@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HuaweiClaw | Digital Cockpit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- ECharts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <style>
+        :root {
+            --primary: #2563EB;
+            /* Elegant Sapphire Blue */
+            --primary-glow: rgba(37, 99, 235, 0.4);
+            --bg-dark: #0A0A0B;
+            --bg-card: rgba(23, 23, 26, 0.7);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-main: #F8F9FA;
+            --text-dim: #94A3B8;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-hover: rgba(255, 255, 255, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at top left, #1a1a1d, #0A0A0B);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+        }
+
+        .chat-sidebar {
+            width: 280px;
+            background: rgba(0, 0, 0, 0.3);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            backdrop-filter: blur(20px);
+        }
+
+        .main-stage {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Header */
+        header {
+            padding: 1.5rem 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-ring {
+            width: 32px;
+            height: 32px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        h1 {
+            font-size: 1.25rem;
+            margin: 0;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            font-family: 'Outfit';
+        }
+
+        /* Chat Stage */
+        #chat-stage {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            scroll-behavior: smooth;
+        }
+
+        .message-wrapper {
+            display: flex;
+            width: 100%;
+        }
+
+        .message-wrapper.user {
+            justify-content: flex-end;
+        }
+
+        .message-wrapper.assistant {
+            justify-content: flex-start;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 1.25rem 1.75rem;
+            border-radius: 24px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+
+        .user .message {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+            color: white;
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 8px 25px var(--primary-glow);
+        }
+
+        .assistant .message {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            border-bottom-left-radius: 4px;
+            backdrop-filter: blur(10px);
+        }
+
+        .msg-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        /* Controls */
+        .input-cockpit {
+            padding: 2rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .input-wrapper {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-glow);
+        }
+
+        input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 0.75rem 1rem;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .btn-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: transparent;
+            border: none;
+            color: var(--text-dim);
+        }
+
+        .btn-icon:hover {
+            background: var(--glass-hover);
+            color: white;
+        }
+
+        .btn-send {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-send:hover {
+            background: #d63333;
+            transform: translateY(-2px);
+        }
+
+        /* Thinking Indicator */
+        #thinking-legend {
+            display: none;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .dot-flashing {
+            position: relative;
+            width: 6px;
+            height: 6px;
+            border-radius: 5px;
+            background-color: var(--primary);
+            color: var(--primary);
+            animation: dotFlashing 1s infinite linear alternate;
+            animation-delay: .5s;
+        }
+
+        .dot-flashing::before,
+        .dot-flashing::after {
+            content: '';
+            display: inline-block;
+            position: absolute;
+            top: 0;
+        }
+
+        .dot-flashing::before {
+            left: -12px;
+            width: 6px;
+            height: 6px;
+            border-radius: 5px;
+            background-color: var(--primary);
+            color: var(--primary);
+            animation: dotFlashing 1s infinite linear alternate;
+            animation-delay: 0s;
+        }
+
+        .dot-flashing::after {
+            left: 12px;
+            width: 6px;
+            height: 6px;
+            border-radius: 5px;
+            background-color: var(--primary);
+            color: var(--primary);
+            animation: dotFlashing 1s infinite linear alternate;
+            animation-delay: 1s;
+        }
+
+        @keyframes dotFlashing {
+            0% {
+                background-color: var(--primary);
+            }
+
+            50%,
+            100% {
+                background-color: rgba(195, 31, 31, 0.2);
+            }
+        }
+
+        /* Recording Animation */
+        .is-recording {
+            color: #ef4444 !important;
+            animation: pulseRecord 1.5s infinite;
+        }
+
+        @keyframes pulseRecord {
+            0% {
+                background: rgba(239, 68, 68, 0);
+            }
+
+            50% {
+                background: rgba(239, 68, 68, 0.2);
+            }
+
+            100% {
+                background: rgba(239, 68, 68, 0);
+            }
+        }
+
+        /* Voice Processing Animation */
+        .is-processing-voice {
+            position: relative;
+            color: var(--primary) !important;
+        }
+
+        .is-processing-voice::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 18px;
+            background: transparent;
+            animation: voiceWaves 1.2s ease-in-out infinite;
+        }
+
+        @keyframes voiceWaves {
+            0%   { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.5); }
+            50%  { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+        }
+
+        .voice-processing-bar {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: rgba(37, 99, 235, 0.1);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .voice-processing-bar.active {
+            display: flex;
+        }
+
+        .voice-wave-icon {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            height: 16px;
+        }
+
+        .voice-wave-icon span {
+            display: block;
+            width: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+            animation: waveBar 0.8s ease-in-out infinite;
+        }
+
+        .voice-wave-icon span:nth-child(1) { height: 6px; animation-delay: 0s; }
+        .voice-wave-icon span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
+        .voice-wave-icon span:nth-child(3) { height: 16px; animation-delay: 0.3s; }
+        .voice-wave-icon span:nth-child(4) { height: 12px; animation-delay: 0.45s; }
+        .voice-wave-icon span:nth-child(5) { height: 6px; animation-delay: 0.6s; }
+
+        @keyframes waveBar {
+            0%, 100% { transform: scaleY(0.4); }
+            50%      { transform: scaleY(1); }
+        }
+
+        .tts-btn {
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .tts-btn:hover {
+            background: var(--glass-hover);
+        }
+
+        .agent-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tag-hwc {
+            background: rgba(37, 99, 235, 0.2);
+            color: #60A5FA;
+            border-color: rgba(37, 99, 235, 0.3);
+        }
+
+        .tag-biz {
+            background: rgba(79, 70, 229, 0.2);
+            color: #818CF8;
+            border-color: rgba(79, 70, 229, 0.3);
+        }
+
+        .tag-dat {
+            background: rgba(245, 158, 11, 0.2);
+            color: #FBBF24;
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .tag-code {
+            background: rgba(139, 92, 246, 0.2);
+            color: #A78BFA;
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .tag-com {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34D399;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .tag-know {
+            background: rgba(107, 114, 128, 0.2);
+            color: #9CA3AF;
+            border-color: rgba(107, 114, 128, 0.3);
+        }
+
+        .tag-orch {
+            background: rgba(236, 72, 153, 0.2);
+            color: #F472B6;
+            border-color: rgba(236, 72, 153, 0.3);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+
+        .agent-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 0.75rem;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .agent-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 8px 10px;
+            transition: all 0.2s;
+        }
+
+        .agent-card:hover {
+            background: var(--glass-hover);
+            border-color: var(--primary-glow);
+        }
+
+        .agent-card-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 2px;
+        }
+
+        .agent-card-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-main);
+            font-family: 'Outfit', monospace;
+            letter-spacing: 0.5px;
+        }
+
+        .agent-llm-badge {
+            margin-left: auto;
+            font-size: 0.75rem;
+            font-family: 'Outfit', monospace;
+            color: var(--text-dim);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            padding: 2px 7px;
+            white-space: nowrap;
+            letter-spacing: 0.3px;
+            font-weight: 500;
+        }
+
+        .agent-card-desc {
+            font-size: 0.62rem;
+            color: var(--text-dim);
+            line-height: 1.2;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 350px;
+            margin: 1rem 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        /* Localization Menu */
+        .lang-container {
+            position: relative;
+        }
+
+        .lang-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 6px;
+            display: none;
+            flex-direction: row;
+            gap: 8px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            animation: slideDown 0.2s ease-out;
+        }
+
+        .lang-dropdown.active {
+            display: flex;
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .lang-option:hover {
+            background: var(--glass-hover);
+            color: white;
+        }
+
+        .lang-option.active {
+            background: var(--primary-glow);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .attachment-container {
+            display: none;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-top: 1px solid var(--border);
+            border-radius: 12px 12px 0 0;
+            margin-bottom: -1px;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .attachment-pill {
+            background: var(--primary-glow);
+            color: var(--text-main);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--primary);
+        }
+
+        .btn-remove-file {
+            cursor: pointer;
+            color: var(--text-dim);
+            transition: color 0.2s;
+        }
+
+        .btn-remove-file:hover {
+            color: #ef4444;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar for history or status -->
+        <aside class="chat-sidebar">
+            <div style="margin-bottom: 2rem;">
+                <div class="brand">
+                    <div class="logo-ring"
+                        style="width: 42px; height: 42px; overflow: hidden; border: 1px solid var(--primary);">
+                        <img src="logo.png" alt="HuaweiClaw" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <h1>HuaweiClaw</h1>
+                </div>
+                <p id="sidebar-subtitle" style="font-size: 0.8rem; color: var(--text-dim); margin-top: 10px;">
+                    Multi-Agent System v1.0</p>
+            </div>
+
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 10px;">
+                <label id="status-label"
+                    style="font-size: 0.7rem; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px;">System
+                    Status</label>
+                <div
+                    style="padding: 12px; background: var(--glass); border-radius: 12px; font-size: 0.85rem; display: flex; align-items: center; gap: 10px;">
+                    <span style="width: 8px; height: 8px; background: #10B981; border-radius: 50%;"></span>
+                    <span id="status-text">Connected to Cloud</span>
+                </div>
+
+                <label id="ecosystem-label"
+                    style="font-size: 0.7rem; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; margin-top: 1rem;">Agent
+                    Ecosystem</label>
+                <div class="agent-list" id="agent-list">
+                    <!-- Populated dynamically from /api/health -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-stage">
+            <header>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <i data-lucide="layout" size="20" style="color: var(--text-dim)"></i>
+                    <span id="cockpit-title" style="font-weight: 600; font-size: 0.9rem;">Operations Cockpit</span>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <div class="lang-container">
+                        <div class="btn-icon" onclick="toggleLangMenu(event)" id="active-lang-flag"
+                            title="Change Language">
+                            <img src="https://flagcdn.com/w40/us.png" width="26" alt="EN" style="border-radius:3px; display:block;">
+                        </div>
+                        <div id="lang-dropdown" class="lang-dropdown">
+                            <div class="lang-option" onclick="selectLang('PR-BR')" title="Português">
+                                <img src="https://flagcdn.com/w40/br.png" width="26" alt="BR" style="border-radius:3px;">
+                            </div>
+                            <div class="lang-option" onclick="selectLang('ES-MX')" title="Español">
+                                <img src="https://flagcdn.com/w40/mx.png" width="26" alt="MX" style="border-radius:3px;">
+                            </div>
+                            <div class="lang-option active" onclick="selectLang('EN-US')" title="English">
+                                <img src="https://flagcdn.com/w40/us.png" width="26" alt="US" style="border-radius:3px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-icon" id="clear-btn" title="Clear Session Memory"><i data-lucide="trash-2" size="20"></i></div>
+                    <div class="btn-icon"><i data-lucide="settings" size="20"></i></div>
+                    <div class="btn-icon"><i data-lucide="user" size="20"></i></div>
+                </div>
+            </header>
+
+            <div id="chat-stage">
+                <div class="message-wrapper assistant">
+                    <div class="message">
+                        Hello! I am the <strong>HuaweiClaw</strong> intelligent agent. I have loaded the infrastructure
+                        for 20 verified regions. How can I help you today?
+                        <div class="msg-meta">
+                            <i data-lucide="volume-2" size="14" class="tts-btn"
+                                onclick="speakText(this.parentElement.parentElement.innerText)"></i>
+                            <span class="timestamp-text">Just now</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-cockpit">
+                <div id="thinking-legend" style="display: none;">
+                    <div class="dot-flashing"></div>
+                    <span id="thinking-text" style="margin-left: 15px;">The agent is analyzing your request...</span>
+                    <button id="cancel-btn" style="margin-left: 15px; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #ef4444; padding: 4px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.background='rgba(239, 68, 68, 0.4)'" onmouseout="this.style.background='rgba(239, 68, 68, 0.2)'">
+                        <i data-lucide="x" size="12" style="vertical-align: middle; margin-right: 4px;"></i> Cancel
+                    </button>
+                </div>
+
+                <div id="voice-processing-bar" class="voice-processing-bar">
+                    <div class="voice-wave-icon">
+                        <span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                    <span id="voice-processing-text">Processing voice...</span>
+                </div>
+
+                <div id="attachment-container" class="attachment-container">
+                    <div class="attachment-pill">
+                        <i data-lucide="file-text" size="14"></i>
+                        <span id="staged-file-name">filename.pdf</span>
+                        <i data-lucide="x" size="14" class="btn-remove-file" id="remove-file-btn"></i>
+                    </div>
+                </div>
+
+                <div class="input-wrapper">
+                    <button class="btn-icon" id="mic-btn" title="Activate voice input">
+                        <i data-lucide="mic" size="20"></i>
+                    </button>
+                    <button class="btn-icon" id="attach-btn" title="Upload PDF, Word, or Excel file">
+                        <i data-lucide="paperclip" size="20"></i>
+                    </button>
+                    <input type="file" id="file-input" style="display: none;" accept=".pdf,.doc,.docx,.xls,.xlsx">
+                    <input type="text" id="user-input" placeholder="Infrastructure command or question..."
+                        autocomplete="off">
+                    <button class="btn-icon btn-send" id="send-btn">
+                        <i data-lucide="arrow-up" size="20"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const chatStage = document.getElementById('chat-stage');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const micBtn = document.getElementById('mic-btn');
+        const attachBtn = document.getElementById('attach-btn');
+        const fileInput = document.getElementById('file-input');
+        const attachmentContainer = document.getElementById('attachment-container');
+        const stagedFileNameEl = document.getElementById('staged-file-name');
+        const removeFileBtn = document.getElementById('remove-file-btn');
+        const thinkingLegend = document.getElementById('thinking-legend');
+
+        let stagedFile = null;
+        let currentAbortController = null;
+
+        // ── MCP-UI Protocol Integration ──
+        // Implements the mcpui.dev postMessage protocol for embedded tool UIs.
+        // When a tool returns an interactive UI (e.g. ECharts), we render it
+        // in an iframe that communicates back via postMessage.
+        window.addEventListener('message', (event) => {
+            const msg = event.data;
+            if (!msg || !msg.type) return;
+
+            switch (msg.type) {
+                case 'intent':
+                    // User expressed intent in embedded UI → send as chat message
+                    if (msg.payload?.intent) {
+                        const prompt = msg.payload.params
+                            ? `${msg.payload.intent}: ${JSON.stringify(msg.payload.params)}`
+                            : msg.payload.intent;
+                        userInput.value = prompt;
+                        sendMessage();
+                    }
+                    break;
+                case 'prompt':
+                    // Embedded UI asks host to run a prompt
+                    if (msg.payload?.prompt) {
+                        userInput.value = msg.payload.prompt;
+                        sendMessage();
+                    }
+                    break;
+                case 'tool':
+                    // Embedded UI asks host to run a tool call
+                    if (msg.payload?.toolName) {
+                        const args = msg.payload.params ? ` ARGS: ${JSON.stringify(msg.payload.params)}` : '';
+                        userInput.value = `TOOL: ${msg.payload.toolName}${args}`;
+                        sendMessage();
+                    }
+                    break;
+                case 'notify':
+                    // Notification from embedded UI (side effects)
+                    console.log('[MCP-UI] Notify:', msg.payload?.message);
+                    break;
+                case 'link':
+                    // Navigation request from embedded UI
+                    if (msg.payload?.url) window.open(msg.payload.url, '_blank');
+                    break;
+            }
+        });
+
+        // Render an MCP-UI resource (interactive HTML) in an iframe
+        function renderMcpUI(htmlContent, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const iframe = document.createElement('iframe');
+            iframe.srcdoc = htmlContent;
+            iframe.style.cssText = 'width:100%;height:350px;border:none;border-radius:12px;background:transparent;';
+            iframe.sandbox = 'allow-scripts allow-same-origin';
+            container.appendChild(iframe);
+        }
+
+        // Localization Dictionary
+        const uiTranslations = {
+            'EN-US': {
+                'sidebar-subtitle': 'Multi-Agent System v1.0',
+                'status-label': 'System Status',
+                'status-text': 'Connected to Cloud',
+                'ecosystem-label': 'Agent Ecosystem',
+                'cockpit-title': 'Operations Cockpit',
+                'thinking-text': 'The agent is analyzing your request...',
+                'cancel-btn': 'Cancel',
+                'cancelled-msg': '⏹️ Request cancelled by user.',
+                'user-input-placeholder': 'Infrastructure command or question...',
+                'mic-btn-title': 'Activate voice input',
+                'welcome-msg': 'Hello! I am the <strong>HuaweiClaw</strong> intelligent agent. I have loaded the infrastructure for 20 verified regions. How can I help you today?',
+                'timestamp-text': 'Just now',
+                'attach-btn-title': 'Upload PDF, Word, or Excel file',
+                'voice-processing-text': 'Transcribing audio...',
+                'voice-sending-text': 'Sending message...',
+                'flag': '<img src="https://flagcdn.com/w40/us.png" width="26" alt="EN" style="border-radius:3px; display:block;">',
+                'agent-name-orchestrator': 'Orchestrator',
+                'agent-name-huaweicloud': 'Huawei Cloud Expert',
+                'agent-name-code': 'Senior Engineer',
+                'agent-name-data': 'Data Analyst',
+                'agent-name-knowledge': 'Knowledge Expert',
+                'agent-name-communication': 'Communication Strategist',
+                'agent-name-business': 'Business Analyst',
+                'agent-desc-orchestrator': 'Central coordinator that classifies tasks, routes to specialists, and synthesizes responses.',
+                'agent-desc-huaweicloud': 'Expert in Huawei Cloud infrastructure (ECS, VPC, OBS, RDS, IAM, EVS) across verified regions.',
+                'agent-desc-code': 'Senior engineer for writing, debugging, and executing code with Docker sandbox.',
+                'agent-desc-data': 'Specialist in SQL/NoSQL queries, database inspection, and ECharts visualization.',
+                'agent-desc-knowledge': 'Fact-checker and researcher using RAG, semantic memory, and web search.',
+                'agent-desc-communication': 'Messaging strategist for Telegram, Gmail, Calendar, and Drive.',
+                'agent-desc-business': 'Business analyst for process optimization, CRM, and KPI tracking.'
+            },
+            'ES-MX': {
+                'sidebar-subtitle': 'Sistema Multi-Agente v1.0',
+                'status-label': 'Estado del Sistema',
+                'status-text': 'Conectado a la Nube',
+                'ecosystem-label': 'Ecosistema de Agentes',
+                'cockpit-title': 'Cabina de Operaciones',
+                'thinking-text': 'El agente está analizando tu solicitud...',
+                'cancel-btn': 'Cancelar',
+                'cancelled-msg': '⏹️ Solicitud cancelada por el usuario.',
+                'user-input-placeholder': 'Comando de infraestructura o pregunta...',
+                'mic-btn-title': 'Activar entrada de voz',
+                'welcome-msg': '¡Hola! Soy el agente inteligente <strong>HuaweiClaw</strong>. He cargado la infraestructura de 20 regiones verificadas. ¿Cómo puedo ayudarte hoy?',
+                'timestamp-text': 'Justo ahora',
+                'attach-btn-title': 'Subir archivo PDF, Word o Excel',
+                'voice-processing-text': 'Transcribiendo audio...',
+                'voice-sending-text': 'Enviando mensaje...',
+                'flag': '<img src="https://flagcdn.com/w40/mx.png" width="26" alt="MX" style="border-radius:3px; display:block;">',
+                'agent-name-orchestrator': 'Orquestador',
+                'agent-name-huaweicloud': 'Experto Huawei Cloud',
+                'agent-name-code': 'Ingeniero Senior',
+                'agent-name-data': 'Analista de Datos',
+                'agent-name-knowledge': 'Experto en Conocimiento',
+                'agent-name-communication': 'Estratega de Comunicación',
+                'agent-name-business': 'Analista de Negocios',
+                'agent-desc-orchestrator': 'Coordinador central que clasifica tareas, enruta a especialistas y sintetiza respuestas.',
+                'agent-desc-huaweicloud': 'Experto en infraestructura Huawei Cloud (ECS, VPC, OBS, RDS, IAM, EVS) en regiones verificadas.',
+                'agent-desc-code': 'Ingeniero senior para escribir, depurar y ejecutar código con sandbox Docker.',
+                'agent-desc-data': 'Especialista en consultas SQL/NoSQL, inspección de bases de datos y visualización ECharts.',
+                'agent-desc-knowledge': 'Verificador de hechos e investigador usando RAG, memoria semántica y búsqueda web.',
+                'agent-desc-communication': 'Estratega de mensajería para Telegram, Gmail, Calendar y Drive.',
+                'agent-desc-business': 'Analista de negocios para optimización de procesos, CRM y seguimiento de KPIs.'
+            },
+            'PR-BR': {
+                'sidebar-subtitle': 'Sistema Multi-Agente v1.0',
+                'status-label': 'Status do Sistema',
+                'status-text': 'Conectado à Nuvem',
+                'ecosystem-label': 'Ecossistema de Agentes',
+                'cockpit-title': 'Cockpit de Operações',
+                'thinking-text': 'O agente está analisando sua solicitação...',
+                'cancel-btn': 'Cancelar',
+                'cancelled-msg': '⏹️ Solicitação cancelada pelo usuário.',
+                'user-input-placeholder': 'Comando de infraestrutura ou pergunta...',
+                'mic-btn-title': 'Ativar entrada de voz',
+                'welcome-msg': 'Olá! Eu sou o agente inteligente <strong>HuaweiClaw</strong>. Carreguei a infraestrutura de 20 regiões verificadas. Como posso ajudar você hoje?',
+                'timestamp-text': 'Agora mesmo',
+                'attach-btn-title': 'Carregar arquivo PDF, Word ou Excel',
+                'voice-processing-text': 'Transcrevendo áudio...',
+                'voice-sending-text': 'Enviando mensagem...',
+                'flag': '<img src="https://flagcdn.com/w40/br.png" width="26" alt="BR" style="border-radius:3px; display:block;">',
+                'agent-name-orchestrator': 'Orquestrador',
+                'agent-name-huaweicloud': 'Especialista Huawei Cloud',
+                'agent-name-code': 'Engenheiro Senior',
+                'agent-name-data': 'Analista de Dados',
+                'agent-name-knowledge': 'Especialista em Conhecimento',
+                'agent-name-communication': 'Estrategista de Comunicação',
+                'agent-name-business': 'Analista de Negócios',
+                'agent-desc-orchestrator': 'Coordenador central que classifica tarefas, roteia para especialistas e sintetiza respostas.',
+                'agent-desc-huaweicloud': 'Especialista em infraestrutura Huawei Cloud (ECS, VPC, OBS, RDS, IAM, EVS) em regiões verificadas.',
+                'agent-desc-code': 'Engenheiro senior para escrever, depurar e executar código com sandbox Docker.',
+                'agent-desc-data': 'Especialista em consultas SQL/NoSQL, inspeção de bancos de dados e visualização ECharts.',
+                'agent-desc-knowledge': 'Verificador de fatos e pesquisador usando RAG, memória semântica e busca web.',
+                'agent-desc-communication': 'Estrategista de mensagens para Telegram, Gmail, Calendar e Drive.',
+                'agent-desc-business': 'Analista de negócios para otimização de processos, CRM e acompanhamento de KPIs.'
+            }
+        };
+
+        let currentLang = localStorage.getItem('hwc-lang') || 'EN-US';
+
+        function toggleLangMenu(e) {
+            e.stopPropagation();
+            document.getElementById('lang-dropdown').classList.toggle('active');
+        }
+
+        function selectLang(lang) {
+            console.log(`Switching language to: ${lang}`);
+            if (!uiTranslations[lang]) {
+                console.error(`Language ${lang} not found in uiTranslations`);
+                return;
+            }
+
+            currentLang = lang;
+            localStorage.setItem('hwc-lang', lang);
+
+            const dict = uiTranslations[lang];
+
+            // Update Text Nodes and Attributes
+            Object.keys(dict).forEach(id => {
+                if (id.startsWith('agent-name-') || id.startsWith('agent-desc-')) return;
+                const el = document.getElementById(id);
+                if (el) {
+                    if (id === 'user-input-placeholder') {
+                        userInput.placeholder = dict[id];
+                    } else if (id === 'mic-btn-title') {
+                        micBtn.title = dict[id];
+                    } else if (id === 'attach-btn-title') {
+                        attachBtn.title = dict[id];
+                    } else if (id === 'welcome-msg') {
+                        const firstMsg = chatStage.querySelector('.message-wrapper.assistant .message');
+                        if (firstMsg && (firstMsg.innerHTML.includes('HuaweiClaw') || firstMsg.querySelector('.text-body')?.innerHTML.includes('HuaweiClaw'))) {
+                            const textBody = firstMsg.querySelector('.text-body') || firstMsg;
+                            textBody.innerHTML = dict[id];
+
+                            const meta = firstMsg.querySelector('.msg-meta');
+                            if (meta) {
+                                meta.innerHTML = `<i data-lucide="volume-2" size="14" class="tts-btn" onclick="speakText(this.parentElement.parentElement.innerText)"></i><span class="timestamp-text">${dict['timestamp-text']}</span>`;
+                                lucide.createIcons();
+                            }
+                        }
+                    } else {
+                        el.innerHTML = dict[id];
+                    }
+                }
+            });
+
+            // Update all dynamic timestamps in history
+            document.querySelectorAll('.timestamp-text').forEach(el => {
+                el.innerText = dict['timestamp-text'];
+            });
+
+            // Re-render agent cards with new language
+            loadAgentCards();
+
+            // Update active flag in header
+            const flagEl = document.getElementById('active-lang-flag');
+            if (flagEl) {
+                flagEl.innerHTML = dict.flag;
+            }
+
+            // Update active state in menu
+            document.querySelectorAll('.lang-option').forEach(opt => {
+                opt.classList.remove('active');
+                if (opt.getAttribute('onclick').includes(lang)) {
+                    opt.classList.add('active');
+                }
+            });
+
+            const dropdown = document.getElementById('lang-dropdown');
+            if (dropdown) dropdown.classList.remove('active');
+
+            console.log('UI Localization updated successfully.');
+        }
+
+        // Close menu on click outside
+        document.addEventListener('click', () => {
+            document.getElementById('lang-dropdown').classList.remove('active');
+        });
+
+        // Initialize UI with current language
+        setTimeout(() => selectLang(currentLang), 100);
+
+        let isRecording = false;
+        let mediaRecorder = null;
+        let audioChunks = [];
+
+        // Initialize Icons
+        lucide.createIcons();
+
+        // ── Dynamic Agent Cards ──
+        // Load agents from /api/health and render sidebar cards with real LLM models
+        const AGENT_META = {
+          orchestrator:    { icon: 'layout',     color: '#F472B6' },
+          huaweicloud:     { icon: 'cloud',      color: '#60A5FA' },
+          code:            { icon: 'code',       color: '#A78BFA' },
+          data:            { icon: 'database',   color: '#FBBF24' },
+          knowledge:       { icon: 'book-open',  color: '#9CA3AF' },
+          communication:   { icon: 'mail',       color: '#34D399' },
+          business:        { icon: 'briefcase',  color: '#818CF8' },
+        };
+
+        function getAgentName(role) {
+          const dict = uiTranslations[currentLang];
+          return dict && dict[`agent-name-${role}`] ? dict[`agent-name-${role}`] : role;
+        }
+
+        function getAgentDesc(role) {
+          const dict = uiTranslations[currentLang];
+          return dict && dict[`agent-desc-${role}`] ? dict[`agent-desc-${role}`] : '';
+        }
+
+        async function loadAgentCards() {
+          const list = document.getElementById('agent-list');
+          if (!list) return;
+
+          try {
+            const res = await fetch('/api/health');
+            const data = await res.json();
+            const agents = data.agents || [];
+
+            list.innerHTML = agents.map(a => {
+              const meta = AGENT_META[a.role] || { icon: 'bot', color: '#9CA3AF' };
+              const modelShort = a.model || '?';
+              return `
+                <div class="agent-card">
+                  <div class="agent-card-header">
+                    <i data-lucide="${meta.icon}" size="14" style="color: ${meta.color}"></i>
+                    <span class="agent-card-name">${getAgentName(a.role)}</span>
+                    <span class="agent-llm-badge">${modelShort}</span>
+                  </div>
+                  <div class="agent-card-desc">${getAgentDesc(a.role)}</div>
+                </div>
+              `;
+            }).join('');
+
+            lucide.createIcons();
+          } catch (e) {
+            console.warn('Failed to load agent cards:', e);
+          }
+        }
+
+        loadAgentCards();
+
+        async function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text && !stagedFile) return;
+
+            let fullPrompt = text;
+            if (stagedFile) {
+                fullPrompt = `[Archivo adjunto: ${stagedFile.name}]\nContenido extraído del archivo:\n${stagedFile.content}\n\nPregunta/Instrucción del usuario: ${text || 'Analiza este archivo.'}`;
+                appendMessage('user', text ? `📎 [${stagedFile.name}] ${text}` : `📎 [${stagedFile.name}] Analiza este archivo.`);
+            } else {
+                appendMessage('user', text);
+            }
+
+            userInput.value = '';
+            clearStagedFile();
+            setThinking(true);
+
+            // Create AbortController for this request
+            currentAbortController = new AbortController();
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: fullPrompt }),
+                    signal: currentAbortController.signal
+                });
+                const data = await response.json();
+                appendMessage('assistant', data.response);
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    appendMessage('assistant', '⏹️ Request cancelled by user.');
+                } else {
+                    appendMessage('assistant', '⚠️ Connection Error: Could not connect to the agent core.');
+                }
+            } finally {
+                setThinking(false);
+                currentAbortController = null;
+            }
+        }
+
+        // Cancel button handler
+        document.getElementById('cancel-btn').addEventListener('click', () => {
+            if (currentAbortController) {
+                currentAbortController.abort();
+                setThinking(false);
+                currentAbortController = null;
+            }
+        });
+
+        function appendMessage(sender, text) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `message-wrapper ${sender}`;
+
+            const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            let messageContent = text;
+            let agentBadgeHtml = '';
+
+            // Detect [AGENT, AGENT] prefix
+            const agentMatch = text.match(/^\[(.*?)\] (.*)/s);
+            if (agentMatch) {
+                const agents = agentMatch[1].split(',').map(a => a.trim()).filter(a => a.toUpperCase() !== 'ORCH');
+                messageContent = agentMatch[2];
+                agents.forEach(agent => {
+                    const lowAgent = agent.toLowerCase();
+                    agentBadgeHtml += `<span class="agent-tag tag-${lowAgent}">${agent}</span> `;
+                });
+            }
+
+            // Nueva lógica de extracción robusta basada en conteo de llaves (balanced braces)
+            const chartsToRender = [];
+            let processedText = messageContent;
+
+            // Función para limpiar JSON de alucinaciones comunes (puntos de lista, etc)
+            const cleanJsonHallucinations = (raw) => {
+                return raw
+                    .replace(/^[•\-\*]\s*/gm, '') // Clean list markers at beginning of line
+                    .replace(/[:]\s*[•\-\*]\s*/g, ': ') // Clean list markers after colons (e.g., "name": • "Fail")
+                    .trim();
+            };
+
+            // Primero manejamos bloques con backticks markdown ```json ... ```
+            processedText = processedText.replace(/```json\s*([\s\S]*?)```/g, (match, jsonRaw) => {
+                try {
+                    const cleaned = cleanJsonHallucinations(jsonRaw);
+                    const config = JSON.parse(cleaned);
+                    if (config.xAxis || config.series || config.dataset || config.radar || config.polar) {
+                        const chartId = 'chart-' + Math.random().toString(36).substr(2, 9);
+                        chartsToRender.push({ id: chartId, config });
+                        return `<div id="${chartId}" class="chart-container"></div>`;
+                    }
+                } catch (e) {
+                    console.warn("Failed to parse JSON detected in backticks:", e);
+                }
+                return match;
+            });
+
+            // Fallback: Buscar bloques JSON sueltos que parezcan ECharts usando balanceo de llaves
+            // Esto ayuda si el modelo olvida los backticks o los pone mal
+            if (processedText.includes('{') && processedText.includes('series')) {
+                let searchPos = 0;
+                while ((searchPos = processedText.indexOf('{', searchPos)) !== -1) {
+                    let braceCount = 0;
+                    let endPos = -1;
+                    for (let i = searchPos; i < processedText.length; i++) {
+                        if (processedText[i] === '{') braceCount++;
+                        else if (processedText[i] === '}') braceCount--;
+                        if (braceCount === 0) {
+                            endPos = i + 1;
+                            break;
+                        }
+                    }
+
+                    if (endPos !== -1) {
+                        const potentialJson = processedText.substring(searchPos, endPos);
+                        if (potentialJson.includes('"series"') || potentialJson.includes('"xAxis"')) {
+                            try {
+                                const cleaned = cleanJsonHallucinations(potentialJson);
+                                const config = JSON.parse(cleaned);
+                                const chartId = 'chart-' + Math.random().toString(36).substr(2, 9);
+                                chartsToRender.push({ id: chartId, config });
+
+                                // Reemplazar el bloque en el texto
+                                const before = processedText.substring(0, searchPos);
+                                const after = processedText.substring(endPos);
+                                processedText = before + `<div id="${chartId}" class="chart-container"></div>` + after;
+                                searchPos += `<div id="${chartId}" class="chart-container"></div>`.length;
+                                continue;
+                            } catch (e) { }
+                        }
+                        searchPos = endPos;
+                    } else {
+                        searchPos++;
+                    }
+                }
+            }
+
+            // Intercept large PNG base64 charts before the generic img regex
+            // to avoid hanging the browser with massive data URLs in innerHTML.
+            // Instead, create a blob URL which is much more efficient.
+            const chartImages = [];
+            processedText = processedText.replace(/!\[chart\]\(data:image\/png;base64,([^\)]+)\)/g, (match, b64data) => {
+                const chartImgId = 'chartimg-' + Math.random().toString(36).substr(2, 9);
+                chartImages.push({ id: chartImgId, b64: b64data });
+                return `<div id="${chartImgId}" style="margin: 12px 0;"><div style="padding:1rem;color:var(--text-dim);font-size:0.85rem;">Loading chart...</div></div>`;
+            });
+
+            const finalHtml = processedText
+                .replace(/\n/g, '<br>')
+                // MCP-UI ECharts protocol: data:image/echarts;base64,{json} → render as ECharts
+                .replace(/!\[chart\]\(data:image\/echarts;base64,([^\)]+)\)/g, (match, b64data) => {
+                    try {
+                        // Decode base64 as UTF-8 (atob alone produces Latin-1 which corrupts accents)
+                        const bytes = Uint8Array.from(atob(b64data), c => c.charCodeAt(0));
+                        const jsonStr = new TextDecoder('utf-8').decode(bytes);
+                        const config = JSON.parse(jsonStr);
+                        const chartId = 'mcpui-chart-' + Math.random().toString(36).substr(2, 9);
+                        chartsToRender.push({ id: chartId, config });
+                        return `<div id="${chartId}" class="chart-container"></div>`;
+                    } catch (e) {
+                        console.warn('Failed to decode MCP-UI ECharts:', e);
+                        return '<div style="padding:1rem;color:var(--text-dim);">[Chart rendering failed]</div>';
+                    }
+                })
+                .replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1" style="max-width: 100%; border-radius: 12px; margin: 12px 0; border: 1px solid var(--border); box-shadow: 0 4px 15px rgba(0,0,0,0.3);">');
+
+            wrapper.innerHTML = `
+                <div class="message">
+                    ${agentBadgeHtml ? `<div style="display: flex; gap: 4px; flex-wrap: wrap;">${agentBadgeHtml}</div>` : ''}
+                    <div class="text-body">${finalHtml}</div>
+                    <div class="msg-meta">
+                        ${sender === 'assistant' ? `<i data-lucide="volume-2" size="14" class="tts-btn" onclick="speakText(this.parentElement.parentElement.querySelector('.text-body').innerText)"></i>` : ''}
+                        ${now}
+                    </div>
+                </div>
+            `;
+
+            chatStage.appendChild(wrapper);
+            lucide.createIcons();
+            chatStage.scrollTop = chatStage.scrollHeight;
+
+            // Deferred rendering of PNG chart images using blob URLs (avoids massive data URLs in DOM)
+            chartImages.forEach(chartImg => {
+                setTimeout(() => {
+                    const container = document.getElementById(chartImg.id);
+                    if (container) {
+                        try {
+                            const byteChars = atob(chartImg.b64);
+                            const byteArray = new Uint8Array(byteChars.length);
+                            for (let i = 0; i < byteChars.length; i++) byteArray[i] = byteChars.charCodeAt(i);
+                            const blob = new Blob([byteArray], { type: 'image/png' });
+                            const url = URL.createObjectURL(blob);
+                            container.innerHTML = `<img src="${url}" alt="Chart" style="max-width: 100%; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 15px rgba(0,0,0,0.3);">`;
+                        } catch (e) {
+                            console.warn('Failed to render chart image:', e);
+                            container.innerHTML = '<div style="padding:1rem;color:var(--text-dim);">[Chart rendering failed]</div>';
+                        }
+                    }
+                }, 50);
+            });
+
+            // Deferred rendering to ensure the DOM is available
+            chartsToRender.forEach(chart => {
+                setTimeout(() => {
+                    const chartDom = document.getElementById(chart.id);
+                    if (chartDom) {
+                        try {
+                            // Use dark theme only if config doesn't specify a light background
+                            const hasLightBg = chart.config.backgroundColor && chart.config.backgroundColor !== 'transparent';
+                            const myChart = echarts.init(chartDom, hasLightBg ? undefined : 'dark');
+
+                            // Config sanitization (to fix agent hallucinations)
+                            const config = chart.config;
+
+                            // 1. El título debe ser un objeto, no un string
+                            if (typeof config.title === 'string') {
+                                config.title = { text: config.title, left: 'center' };
+                            }
+
+                            // 2. Asegurar tooltip si no existe
+                            if (!config.tooltip) {
+                                config.tooltip = { trigger: config.xAxis ? 'axis' : 'item' };
+                            }
+
+                            // 3. Corregir "colors" (plural) a "color" (singular) en series o global
+                            if (Array.isArray(config.series)) {
+                                config.series.forEach(s => {
+                                    if (s.itemStyle && s.itemStyle.colors) {
+                                        if (!config.color) config.color = s.itemStyle.colors;
+                                        delete s.itemStyle.colors;
+                                    }
+                                });
+                            }
+
+                            myChart.setOption({
+                                ...config,
+                                backgroundColor: 'transparent'
+                            });
+                            window.addEventListener('resize', () => myChart.resize());
+                        } catch (err) {
+                            console.error('Error initializing ECharts:', err);
+                        }
+                    }
+                }, 200);
+            });
+        }
+
+        function setThinking(active) {
+            thinkingLegend.style.display = active ? 'flex' : 'none';
+            thinkingLegend.style.opacity = active ? '1' : '0';
+        }
+
+        async function speakText(text) {
+            try {
+                // Clean metadata text (like time)
+                const cleanText = text.replace(/volume-2/g, '').replace(/\d{2}:\d{2}/g, '').trim();
+
+                const response = await fetch('/api/tts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: cleanText })
+                });
+
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const audio = new Audio(url);
+                audio.play();
+            } catch (error) {
+                console.error('Playback Error:', error);
+            }
+        }
+
+        // --- STT Logic ---
+        micBtn.addEventListener('click', async () => {
+            if (!isRecording) {
+                startRecording();
+            } else {
+                stopRecording();
+            }
+        });
+
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
+                mediaRecorder.onstop = processAudio;
+
+                mediaRecorder.start();
+                isRecording = true;
+                micBtn.classList.add('is-recording');
+            } catch (err) {
+                alert('Could not access microphone');
+            }
+        }
+
+        function stopRecording() {
+            mediaRecorder.stop();
+            isRecording = false;
+            micBtn.classList.remove('is-recording');
+        }
+
+        async function processAudio() {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            const formData = new FormData();
+            formData.append('audio', audioBlob, 'record.webm');
+
+            // Show voice processing indicator
+            micBtn.classList.add('is-processing-voice');
+            const voiceBar = document.getElementById('voice-processing-bar');
+            const voiceText = document.getElementById('voice-processing-text');
+            voiceBar.classList.add('active');
+            voiceText.textContent = uiTranslations[currentLang]?.['voice-processing-text'] || 'Transcribing audio...';
+
+            try {
+                const response = await fetch('/api/stt', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                if (data.text) {
+                    voiceText.textContent = uiTranslations[currentLang]?.['voice-sending-text'] || 'Sending message...';
+                    userInput.value = data.text;
+                    await sendMessage();
+                }
+            } catch (error) {
+                console.error('STT Error:', error);
+            } finally {
+                micBtn.classList.remove('is-processing-voice');
+                voiceBar.classList.remove('active');
+            }
+        }
+
+        // --- File Upload Logic ---
+        attachBtn.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            setThinking(true);
+            try {
+                const response = await fetch('/api/parse', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                if (data.error) {
+                    alert(`Error parsing file: ${data.error}`);
+                } else {
+                    stagedFile = { name: data.fileName, content: data.content };
+                    stagedFileNameEl.innerText = data.fileName;
+                    attachmentContainer.style.display = 'flex';
+                    lucide.createIcons();
+                    userInput.focus();
+                }
+            } catch (error) {
+                console.error('Parse Error:', error);
+                alert('Connection Error: Could not parse file.');
+            } finally {
+                setThinking(false);
+                fileInput.value = '';
+            }
+        });
+
+        function clearStagedFile() {
+            stagedFile = null;
+            attachmentContainer.style.display = 'none';
+        }
+
+        removeFileBtn.addEventListener('click', clearStagedFile);
+
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        document.getElementById('clear-btn').onclick = async () => {
+            const confirmMsg = currentLang === 'ES-MX' ? '¿Estás seguro de que deseas borrar la memoria de la sesión?' : 
+                             (currentLang === 'PR-BR' ? 'Tem certeza que deseja apagar a memória da sessão?' : 'Are you sure you want to clear the session memory?');
+            
+            if (confirm(confirmMsg)) {
+                try {
+                    await fetch('/api/memory/clear', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ sessionId: 'web-session' })
+                    });
+                    chatStage.innerHTML = '';
+                    appendMessage('assistant', uiTranslations[currentLang]['welcome-msg']);
+                } catch (error) {
+                    console.error('Clear memory failed:', error);
+                }
+            }
+        };
+
+    </script>
+</body>
+
+</html>

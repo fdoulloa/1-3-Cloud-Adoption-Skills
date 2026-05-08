@@ -1,0 +1,160 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "gog",
+    "description": "Google Workspace CLI for Gmail, Calendar, Drive, and more",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/gmail_search": {
+      "post": {
+        "operationId": "gmail_search",
+        "description": "Search for emails in Gmail using a query string.",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Gmail search query (e.g. 'from:boss newer_than:1d')"
+          },
+          {
+            "name": "max",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ]
+      }
+    },
+    "/gmail_send": {
+      "post": {
+        "operationId": "gmail_send",
+        "description": "Send an email.",
+        "parameters": [
+          {
+            "name": "to",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subject",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/calendar_list": {
+      "post": {
+        "operationId": "calendar_list",
+        "description": "List calendar events.",
+        "parameters": [
+          {
+            "name": "calendarId",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "primary"
+            }
+          },
+          {
+            "name": "from",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ISO date string"
+          },
+          {
+            "name": "to",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ISO date string"
+          }
+        ]
+      }
+    },
+    "/calendar_create": {
+      "post": {
+        "operationId": "calendar_create",
+        "description": "Create a calendar event.",
+        "parameters": [
+          {
+            "name": "summary",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "calendarId",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "primary"
+            }
+          }
+        ]
+      }
+    },
+    "/drive_search": {
+      "post": {
+        "operationId": "drive_search",
+        "description": "Search for files in Google Drive.",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

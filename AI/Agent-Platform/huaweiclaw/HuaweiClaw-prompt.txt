@@ -1,0 +1,97 @@
+Estás ayudándome a construir HuaweiClaw, un agente de IA personal creado desde cero que funciona localmente y usa Telegram, Whatsapp y Web como interfases.
+
+No es un fork ni depende de OpenClaw. Es una implementación propia, simple, segura y completamente bajo mi control.
+
+Objetivo
+
+Crear un agente que pueda:
+	•	Comunicarse conmigo vía Telegram como principal y Web tipo ChatGPT
+	•	Pensar usando LLMs
+	•	Ejecutar herramientas
+	•	Recordar información de forma persistente
+	•	Ejecutarse completamente en local
+
+Requisitos obligatorios
+	•	Basado en JavaScript con TypeScript (ES modules)
+	•	Arquitectura modular y clara
+	•	Servidor web para interfaz web
+	•	Usar webhooks para Telegram
+	•	Whitelist de Telegram user ID
+	•	Credenciales y parametrizacion de llm y mcp en .env
+	•	Memoria persistente con mongoDB
+	•	Agent loop con límite de iteraciones
+	•	Sin skills externas no verificadas
+	•	Seguridad como prioridad
+	•	Compuesto por 7 subagentes: 
+		•	Agente orquestador, que clasifica la tarea, selecciona el agente y sintetiza respuesta
+		•	Agente de negocio que tiene acceso a herramientas de negocio
+		•	Agente de datos que tiene acceso a herramientas de datos
+		•	Agente de codigo que tiene acceso a herramientas de codigo
+		•	Agente de comunicacion que tiene acceso a herramientas de comunicacion
+		•	Agente de conocimiento que tiene acceso a herramientas RAG y busqueda de informacion en internet
+		•	Agente huaweicloud que tiene acceso a herramientas de huaweicloud
+	• Comunicacion entre agentes por A2A (agent to agent)
+	• Cada agente puede tener un LLM diferente
+	• Cada agente debe tener sus propias Credenciales y herramientas
+	• El patrón tiene tres capas: el orquestador que enruta, los agentes especializados que ejecutan, y un sandbox seguro que controla el acceso a herramientas 	
+
+Principios de seguridad clave
+	•	Mínimo privilegio — cada agente solo tiene acceso a las herramientas que necesita para su dominio. El agente de código no puede enviar emails, el de comunicaciones no puede ejecutar SQL.
+	•	Sandbox de ejecución — si usas run_python, ejecútalo dentro de un contenedor Docker o con RestrictedPython. Nunca en el proceso principal.
+	•	Confirmación para acciones destructivas — el flag requires_confirmation=True en una herramienta permite interceptar antes de ejecutar (enviar emails, escribir en DB, hacer deploys).
+	•	Auditoría centralizada — el registry loguea cada llamada con agent_id, tool_name y los parámetros. Esto permite detectar abusos y reconstruir el historial completo.
+	•	Credenciales por agente — en producción, cada agente debería tener su propio API key / token con permisos restringidos en el servicio destino (ej. un rol de base de datos de solo lectura para el agente de datos).
+
+Stack
+	•	grammy → Telegram bot
+	•	karanchopda333/whisper en Ollama local → Speech to Text
+	•	deepgram → Text To Speech
+	•	OpenAI compatible API → LLM (usar diferentes modelos como Qwen3-32b, DeepSeek-V3, etc)
+	•	mongoDB → memoria persistente
+	•	tsx → ejecución en desarrollo
+
+Fundación
+
+Todas las claves añadelas en un .env
+	•	TELEGRAM_BOT_TOKEN="8750414128:AAHO5SmsQyD_IGJdwaNvZfe3Q7OSBkqP1_U"
+	•	TELEGRAM_ALLOWED_USER_IDS="7013124602"
+	•	OPENAI_BASE_URL="https://api-ap-southeast-1.modelarts-maas.com/openai"
+	•	OPENAI_API_KEY="6ZsPL_3gnDHLi179RsR3tIzRh0Ml8uXme7mfsqp7KYl0o_Z13_PYwD2K0Gu7-6LhVDv6BlzQVlnhjIWwsTPnzA
+	•	DEFAULT_LLM_MODEL="deepseek-v3.2"
+	•	HUAWEI_LLM_MODEL="glm5.1"
+	•	CODE_LLM_MODEL="deepseek-v4-flash"
+	•	MONGODB_URI="mongodb://localhost:27017/huaweiclaw"
+	•	MAX_ITERATIONS="10"
+	•	TIMEOUT_MS="30000"
+	•	LOG_LEVEL="info"
+	•	DEEPGRAM_API_KEY="5beacded65b60fc84c62aa480c5778fa52fbaed1"
+	•	DEEPGRAM_TTS_MODEL="aura-asteria-es"
+	•	DEEPGRAM_STT_MODEL="nova-2"
+	•	MCP_WEB_PORT=3001
+	•	MCP_PORT=3000
+	•	HUAWEI_ACCESS_KEY="IH093VXMHKQIJQZ8VWST"
+	•	HUAWEI_SECRET_KEY="RGZUsapjLBqqKB1aqKUPTqgfBmklMJdlskWDnegC"
+
+Genera un proyecto completo funcional que incluya:
+	•	Bot de Telegram operativo
+	•	Bot de Web operativo (basado en https://mcpui.dev/)
+	•	Text To Speech activo en Telegram con Deepgram
+	•	Speech to Text activo en Telegram con Deepgram
+	•	Integración con API compatible OpenAI de acuerdo al llm optimo para cada subagente
+	•	Memoria persistente con MongoDB local
+	•	Agente data con herramientas implementadas: https://mcpmarket.com/server/zaturn y https://mcpmarket.com/server/echart
+	•	Agente comunicacion con herramienta implementada: https://mcpmarket.com/tools/skills/google-workspace-cli-assistant
+	•	Agente codigo con herramienta implementada: https://mcpmarket.com/server/superpowers
+	•	Agent loop completo, por lo tanto se implementa chat en memoria para mantener el contexto de la conversacion y mejorar la experiencia del usuario y la funcionalidad del agente de forma integra
+	•	Implementacion e integracion al MCP funcional de Huawei Cloud: https://github.com/huaweiclouddeveloper/mcp-server/ con implementacion de los principales servicios de huawei como ecs, obs, evs, vpc, iam y rds
+	•	Agente huaweicloud que tiene acceso a herramientas de huaweicloud implementadas
+	•	Al menos una herramienta funcional de cada agente
+	•	Al iniciar el subagente huaweicloud, se debe cargar en cache el ak y sk del .env, posteriormente consultar con el MCP de huawei cloud para obtener el token de acceso, consultar las region_ids, los project_ids y los nombres de las regiones para cargarlos como tripletas (region_id, project_id, project_name) y almacenarlos en cache para posteriormente ser usados por el agente huaweicloud y el mcp de huawei cloud
+	•	Estructura completa de carpetas
+	•	Mejores practicas agenticas de acuerdo al documento 'Guia Agentes 2026.pdf'
+	•	Listo para ejecutar con:
+
+npm install
+npm run dev
+
+  Prioriza simplicidad, claridad y seguridad. Genera todo el código necesario. Y por último hazlo escalable ya que en futuras iteraciones puede que el usuario te pida que funcione en la nube (firebase o similar), añadir herramientas de transcripción, de texto a voz (deepgram), o incluso dar más poderes al agente conectandolo a otros canales o herramientas MCP para que tenga mayor capacidad

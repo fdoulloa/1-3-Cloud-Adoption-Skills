@@ -1,0 +1,134 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "mcp-echarts",
+    "description": "Apache ECharts diagram generator for MCP",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/generate_echarts": {
+      "post": {
+        "x-requires-confirmation": false,
+        "operationId": "generate_echarts",
+        "parameters": [
+          {
+            "name": "echartsOption",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            },
+            "description": "Full Apache ECharts option object"
+          }
+        ]
+      }
+    },
+    "/generate_bar_chart": {
+      "post": {
+        "x-requires-confirmation": false,
+        "operationId": "generate_bar_chart",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Chart title"
+          },
+          {
+            "name": "xAxisData",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": "Categories for X axis"
+          },
+          {
+            "name": "seriesData",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "description": "Values for Y axis"
+          }
+        ]
+      }
+    },
+    "/generate_line_chart": {
+      "post": {
+        "x-requires-confirmation": false,
+        "operationId": "generate_line_chart",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "xAxisData",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "seriesData",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "/generate_pie_chart": {
+      "post": {
+        "x-requires-confirmation": false,
+        "operationId": "generate_pie_chart",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "description": "Array of {category, value} objects"
+          }
+        ]
+      }
+    }
+  }
+}

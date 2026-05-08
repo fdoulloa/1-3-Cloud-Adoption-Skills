@@ -1,0 +1,5138 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "Huawei Cloud Property (Translation failed)",
+    "title": "EVS",
+    "version": "2025-09-02",
+    "x-host_prefix": "evs",
+    "x-host": "evs.{region}.myhuaweicloud.com"
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "components": {
+    "parameters": {},
+    "schemas": {
+      "Error": {
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "message": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "ErrorResponseBody": {
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/Error"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "RollbackSnapshotRequestBody": {
+        "required": [
+          "rollback"
+        ],
+        "properties": {
+          "rollback": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/RollbackSnapshotOption"
+          }
+        },
+        "description": "This is a auto create Body Object",
+        "type": "object"
+      },
+      "RollbackSnapshotResponseBody": {
+        "required": [
+          "rollback"
+        ],
+        "properties": {
+          "rollback": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/RollbackInfo"
+          }
+        },
+        "type": "object"
+      },
+      "RollbackInfo": {
+        "required": [
+          "volume_id"
+        ],
+        "properties": {
+          "volume_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "type": "object"
+      },
+      "RollbackSnapshotOption": {
+        "required": [
+          "volume_id"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "volume_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "type": "object"
+      },
+      "Tag": {
+        "required": [
+          "key",
+          "value"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "value": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "ListTagsResponseBody": {
+        "required": [
+          "tags"
+        ],
+        "properties": {
+          "tags": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            }
+          }
+        },
+        "type": "object"
+      },
+      "BssParamForRetypeVolume": {
+        "properties": {
+          "isAutoPay": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "enum": [
+              "false",
+              "true"
+            ],
+            "default": "false"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "RetypeVolumeResponseBody": {
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "order_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "RetypeVolume": {
+        "type": "object",
+        "required": [
+          "new_type"
+        ],
+        "properties": {
+          "new_type": {
+            "type": "string",
+            "example": "SATA",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "iops": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "throughput": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)"
+      },
+      "RetypeVolumeRequestBody": {
+        "required": [
+          "os-retype"
+        ],
+        "properties": {
+          "bssParam": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/BssParamForRetypeVolume"
+          },
+          "os-retype": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/RetypeVolume"
+          }
+        },
+        "description": "This is a auto create Body Object",
+        "type": "object"
+      },
+      "ListVolumeTagsResponseBody": {
+        "required": [
+          "tags"
+        ],
+        "properties": {
+          "tags": {
+            "type": "object",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "ListVolumesResponseBody": {
+        "required": [
+          "count",
+          "volumes",
+          "volumes_links"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "volumes_links": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          },
+          "volumes": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "$ref": "#/components/schemas/VolumeDetail"
+            }
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "VolumeDetail": {
+        "required": [
+          "attachments",
+          "availability_zone",
+          "bootable",
+          "created_at",
+          "description",
+          "id",
+          "links",
+          "metadata",
+          "multiattach",
+          "name",
+          "os-vol-host-attr:host",
+          "os-vol-mig-status-attr:migstat",
+          "os-vol-mig-status-attr:name_id",
+          "os-vol-tenant-attr:tenant_id",
+          "os-volume-replication:extended_status",
+          "replication_status",
+          "service_type",
+          "shareable",
+          "size",
+          "snapshot_id",
+          "status",
+          "tags",
+          "updated_at",
+          "user_id",
+          "volume_image_metadata",
+          "volume_type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "links": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "description": "",
+              "$ref": "#/components/schemas/Link"
+            }
+          },
+          "name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "status": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "attachments": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "description": "",
+              "$ref": "#/components/schemas/Attachment"
+            }
+          },
+          "availability_zone": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "os-vol-host-attr:host": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "source_volid": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "snapshot_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "description": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "os-vol-tenant-attr:tenant_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "volume_image_metadata": {
+            "type": "object",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "additionalProperties": {
+              "type": "object",
+              "description": ""
+            }
+          },
+          "volume_type": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "consistencygroup_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "bootable": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "additionalProperties": {
+              "type": "object",
+              "description": ""
+            }
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "encrypted": {
+            "type": "boolean",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "replication_status": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "os-volume-replication:extended_status": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "os-vol-mig-status-attr:migstat": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "os-vol-mig-status-attr:name_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "shareable": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "user_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "service_type": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "multiattach": {
+            "type": "boolean",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "dedicated_storage_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "dedicated_storage_name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "tags": {
+            "type": "object",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "additionalProperties": {
+              "type": "string",
+              "description": ""
+            }
+          },
+          "wwn": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "enterprise_project_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "serial_number": {
+            "type": "string",
+            "example": "dswfa16c849565639393393",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "iops": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/iops"
+          },
+          "throughput": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/throughput"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "Link": {
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "rel": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "iops": {
+        "required": [
+          "frozened",
+          "id",
+          "total_val"
+        ],
+        "properties": {
+          "frozened": {
+            "type": "boolean",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "default": false
+          },
+          "id": {
+            "type": "string",
+            "example": "IOPS-0e312.731a9981-da80-4d3d-87af-92ecdb678e8b",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "total_val": {
+            "type": "integer",
+            "format": "int32",
+            "example": 3000,
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "Attachment": {
+        "required": [
+          "attached_at",
+          "attachment_id",
+          "device",
+          "host_name",
+          "id",
+          "server_id",
+          "volume_id"
+        ],
+        "properties": {
+          "attached_at": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "attachment_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "device": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "host_name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "server_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "volume_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "throughput": {
+        "required": [
+          "frozened",
+          "id",
+          "total_val"
+        ],
+        "properties": {
+          "frozened": {
+            "type": "boolean",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "default": false
+          },
+          "id": {
+            "type": "string",
+            "example": "MiBps-7151.731a9981-da80-4d3d-87af-92ecdb678e8b",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "total_val": {
+            "type": "integer",
+            "format": "int32",
+            "example": 300,
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "MediaTypes": {
+        "required": [
+          "base",
+          "type"
+        ],
+        "properties": {
+          "base": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "type": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "Versions": {
+        "required": [
+          "id",
+          "links",
+          "media-types",
+          "status",
+          "updated",
+          "version"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "links": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          },
+          "media-types": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "$ref": "#/components/schemas/MediaTypes"
+            }
+          },
+          "min_version": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "status": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "updated": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "version": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "ShowVersionResponseBody": {
+        "required": [
+          "versions"
+        ],
+        "properties": {
+          "versions": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "$ref": "#/components/schemas/Versions"
+            }
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "VolumeTransferSummary": {
+        "required": [
+          "id",
+          "links",
+          "name",
+          "volume_id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "links": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          },
+          "name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "volume_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "type": "object"
+      },
+      "CinderListVolumeTransfersResponseBody": {
+        "required": [
+          "transfers"
+        ],
+        "properties": {
+          "transfers": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "description": "",
+              "$ref": "#/components/schemas/VolumeTransferSummary"
+            }
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "CreateVolumeTransferOption": {
+        "required": [
+          "name",
+          "volume_id"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "volume_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "type": "object"
+      },
+      "CinderCreateVolumeTransferResponseBody": {
+        "required": [
+          "transfer"
+        ],
+        "properties": {
+          "transfer": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/CreateVolumeTransferDetail"
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "CinderCreateVolumeTransferRequestBody": {
+        "required": [
+          "transfer"
+        ],
+        "properties": {
+          "transfer": {
+            "example": "{ \"transfer\": { \"volume_id\": \"c86b9af4-151d-4ead-b62c-5fb967af0e37\", \"name\": \"first volume\" } }",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/CreateVolumeTransferOption"
+          }
+        },
+        "description": "This is a auto create Body Object",
+        "type": "object"
+      },
+      "CreateVolumeTransferDetail": {
+        "required": [
+          "auth_key",
+          "created_at",
+          "id",
+          "links",
+          "name",
+          "volume_id"
+        ],
+        "properties": {
+          "auth_key": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "links": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "description": "",
+              "$ref": "#/components/schemas/Link"
+            }
+          },
+          "name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "volume_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "type": "object"
+      },
+      "ZoneState": {
+        "properties": {
+          "available": {
+            "type": "boolean",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "CinderListAvailabilityZonesResponseBody": {
+        "required": [
+          "availabilityZoneInfo"
+        ],
+        "properties": {
+          "availabilityZoneInfo": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "description": "",
+              "$ref": "#/components/schemas/AzInfo"
+            }
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "AzInfo": {
+        "required": [
+          "zoneName",
+          "zoneState"
+        ],
+        "properties": {
+          "zoneName": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "zoneState": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/ZoneState"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "VolumeTransfer": {
+        "required": [
+          "created_at",
+          "id",
+          "links",
+          "name",
+          "volume_id"
+        ],
+        "properties": {
+          "created_at": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "links": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "description": "",
+              "$ref": "#/components/schemas/Link"
+            }
+          },
+          "name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "volume_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "type": "object"
+      },
+      "CinderShowVolumeTransferResponseBody": {
+        "required": [
+          "transfer"
+        ],
+        "properties": {
+          "transfer": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/VolumeTransfer"
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "ListSnapshotsResponseBody": {
+        "required": [
+          "count"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "snapshots": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "$ref": "#/components/schemas/SnapshotList"
+            }
+          },
+          "snapshots_links": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "SnapshotList": {
+        "required": [
+          "created_at",
+          "id",
+          "os-extended-snapshot-attributes:progress",
+          "os-extended-snapshot-attributes:project_id",
+          "service_type",
+          "size",
+          "status",
+          "volume_id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "status": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "description": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "additionalProperties": {
+              "type": "string",
+              "description": ""
+            }
+          },
+          "volume_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "os-extended-snapshot-attributes:project_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "os-extended-snapshot-attributes:progress": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "dedicated_storage_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "dedicated_storage_name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "service_type": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "BssParamForResizeVolume": {
+        "properties": {
+          "isAutoPay": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "enum": [
+              "false",
+              "true"
+            ],
+            "default": "false"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "OsExtend": {
+        "required": [
+          "new_size"
+        ],
+        "properties": {
+          "new_size": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "ResizeVolumeRequestBody": {
+        "required": [
+          "os-extend"
+        ],
+        "properties": {
+          "bssParam": {
+            "example": "{         \"chargingMode\": \"prePaid\",          \"isAutoPay\": \"true\"     }",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/BssParamForResizeVolume"
+          },
+          "os-extend": {
+            "example": "{        \"new_size\": 100    }",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/OsExtend"
+          }
+        },
+        "description": "This is a auto create Body Object",
+        "type": "object"
+      },
+      "ResizeVolumeResponseBody": {
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "order_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "TagsForListVolumes": {
+        "required": [
+          "key",
+          "values"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "values": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "type": "object"
+      },
+      "VolumeDetailForTag": {
+        "required": [
+          "attachments",
+          "availability_zone",
+          "bootable",
+          "created_at",
+          "description",
+          "id",
+          "links",
+          "metadata",
+          "multiattach",
+          "name",
+          "os-vol-host-attr:host",
+          "os-vol-mig-status-attr:migstat",
+          "os-vol-mig-status-attr:name_id",
+          "os-vol-tenant-attr:tenant_id",
+          "os-volume-replication:extended_status",
+          "replication_status",
+          "service_type",
+          "shareable",
+          "size",
+          "snapshot_id",
+          "status",
+          "tags",
+          "updated_at",
+          "user_id",
+          "volume_image_metadata",
+          "volume_type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "links": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "description": "",
+              "$ref": "#/components/schemas/Link"
+            }
+          },
+          "name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "status": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "attachments": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "description": "",
+              "$ref": "#/components/schemas/Attachment"
+            }
+          },
+          "availability_zone": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "os-vol-host-attr:host": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "source_volid": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "snapshot_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "description": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "os-vol-tenant-attr:tenant_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "volume_image_metadata": {
+            "type": "object",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "additionalProperties": {
+              "type": "object",
+              "description": ""
+            }
+          },
+          "volume_type": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "consistencygroup_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "bootable": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "metadata": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/VolumeMetadata"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "encrypted": {
+            "type": "boolean",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "replication_status": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "os-volume-replication:extended_status": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "os-vol-mig-status-attr:migstat": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "os-vol-mig-status-attr:name_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "shareable": {
+            "type": "boolean",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "user_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "service_type": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "multiattach": {
+            "type": "boolean",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "dedicated_storage_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "dedicated_storage_name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "tags": {
+            "type": "object",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "additionalProperties": {
+              "type": "string",
+              "description": ""
+            }
+          },
+          "wwn": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "enterprise_project_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "VolumeMetadata": {
+        "properties": {
+          "__system__cmkid": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "__system__encrypted": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "full_clone": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "hw:passthrough": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "orderID": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "ListVolumesByTagsResponseBody": {
+        "properties": {
+          "total_count": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "resources": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "$ref": "#/components/schemas/Resource"
+            }
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "Resource": {
+        "required": [
+          "resource_detail",
+          "resource_id",
+          "tags"
+        ],
+        "properties": {
+          "resource_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "resource_name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "resource_detail": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/VolumeDetailForTag"
+          },
+          "tags": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "type": "object"
+      },
+      "Match": {
+        "required": [
+          "key",
+          "value"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "enum": [
+              "resource_name",
+              "service_type"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "type": "object"
+      },
+      "ListVolumesByTagsRequestBody": {
+        "required": [
+          "action",
+          "tags"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "example": "filter",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "enum": [
+              "filter"
+            ],
+            "default": "filter"
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "minimum": 1,
+            "maximum": 1000,
+            "default": 1000
+          },
+          "matches": {
+            "type": "array",
+            "example": "\"[ { \\\"key\\\": \\\"resource_name\\\", \\\"value\\\": \\\"resource1\\\" }, { \\\"key\\\": \\\"service_type\\\", \\\"value\\\": \\\"EVS\\\" } ]\"",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "description": "",
+              "$ref": "#/components/schemas/Match"
+            }
+          },
+          "offset": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "default": 0
+          },
+          "tags": {
+            "type": "array",
+            "example": "\"[ { \\\"key\\\": \\\"key1\\\", \\\"values\\\": [ \\\"value1\\\", \\\"value2\\\" ] } ]\"",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "$ref": "#/components/schemas/TagsForListVolumes"
+            }
+          }
+        },
+        "description": "This is a auto create Body Object",
+        "type": "object"
+      },
+      "DeleteVolumeResponseBody": {
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "UpdateVolumeResponseBody": {
+        "required": [
+          "availability_zone",
+          "created_at",
+          "id",
+          "metadata",
+          "multiattach",
+          "name",
+          "os-vol-host-attr:host",
+          "os-vol-tenant-attr:tenant_id",
+          "shareable",
+          "size",
+          "status",
+          "volume_type"
+        ],
+        "properties": {
+          "attachments": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "$ref": "#/components/schemas/Attachment"
+            }
+          },
+          "availability_zone": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "bootable": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "links": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          },
+          "metadata": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/VolumeMetadata"
+          },
+          "multiattach": {
+            "type": "boolean",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "os-vol-host-attr:host": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "os-vol-tenant-attr:tenant_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "shareable": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "snapshot_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "source_volid": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "status": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "volume_image_metadata": {
+            "type": "object",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "volume_type": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "description": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "os-volume-replication:extended_status": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "UpdateVolumeOption": {
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "UpdateVolumeRequestBody": {
+        "required": [
+          "volume"
+        ],
+        "properties": {
+          "volume": {
+            "example": "{        \"name\": \"test_volume\",         \"description\": \"test\"    }",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/UpdateVolumeOption"
+          }
+        },
+        "description": "This is a auto create Body Object",
+        "type": "object"
+      },
+      "UnsubscribeVolumeResponseBody": {
+        "type": "object",
+        "required": [
+          "results"
+        ],
+        "properties": {
+          "results": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "$ref": "#/components/schemas/UnsubscribeVolume"
+            }
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)"
+      },
+      "UnsubscribeVolume": {
+        "type": "object",
+        "required": [
+          "result",
+          "volume_id"
+        ],
+        "properties": {
+          "volume_id": {
+            "type": "string",
+            "example": "8739ca48-1b86-46aa-9059-38623ee1346c",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "order_id": {
+            "type": "string",
+            "example": "CS23021116385NAOR",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "result": {
+            "type": "string",
+            "example": "SUCCESS",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "fail_reason": {
+            "type": "string",
+            "example": "INTERNAL ERROR",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)"
+      },
+      "UnsubscribeVolumeRequestBody": {
+        "type": "object",
+        "required": [
+          "volume_ids"
+        ],
+        "properties": {
+          "volume_ids": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)"
+      },
+      "BatchCreateVolumeTagsRequestBody": {
+        "required": [
+          "action",
+          "tags"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "example": "create",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "enum": [
+              "create"
+            ],
+            "default": "create"
+          },
+          "tags": {
+            "type": "array",
+            "example": "\"[{ \\\"key\\\": \\\"key1\\\", \\\"value\\\": \\\"value1\\\"},{\\\"key\\\": \\\"key2\\\",\\\"value\\\": \\\"value3\\\"}]\"",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "description": "",
+              "$ref": "#/components/schemas/Tag"
+            }
+          }
+        },
+        "description": "This is a auto create Body Object",
+        "type": "object"
+      },
+      "SubJob": {
+        "required": [
+          "begin_time",
+          "end_time",
+          "entities",
+          "error_code",
+          "fail_reason",
+          "job_id",
+          "job_type",
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "enum": [
+              "SUCCESS",
+              "RUNNING",
+              "FAIL",
+              "INIT"
+            ]
+          },
+          "entities": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/SubJobEntities"
+          },
+          "job_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "job_type": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "begin_time": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "end_time": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "error_code": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "fail_reason": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "ShowJobResponseBody": {
+        "required": [
+          "begin_time",
+          "end_time",
+          "entities",
+          "error_code",
+          "fail_reason",
+          "job_id",
+          "job_type",
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "enum": [
+              "SUCCESS",
+              "RUNNING",
+              "FAIL",
+              "INIT"
+            ]
+          },
+          "entities": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/JobEntities"
+          },
+          "job_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "job_type": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "begin_time": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "end_time": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "error_code": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "fail_reason": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "JobEntities": {
+        "properties": {
+          "volume_type": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "volume_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "sub_jobs": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "description": "",
+              "$ref": "#/components/schemas/SubJob"
+            }
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "SubJobEntities": {
+        "properties": {
+          "volume_type": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "volume_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "ModifyVolumeQoSOption": {
+        "required": [
+          "iops"
+        ],
+        "properties": {
+          "iops": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "throughput": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "JobResponseBody": {
+        "required": [
+          "job_id"
+        ],
+        "properties": {
+          "job_id": {
+            "type": "string"
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "ModifyVolumeQoSRequestBody": {
+        "required": [
+          "qos_modify"
+        ],
+        "properties": {
+          "qos_modify": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/ModifyVolumeQoSOption"
+          }
+        },
+        "description": "This is a auto create Body Object",
+        "type": "object"
+      },
+      "CreateVolumeOption": {
+        "required": [
+          "availability_zone",
+          "volume_type",
+          "size"
+        ],
+        "properties": {
+          "availability_zone": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "backup_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "description": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "enterprise_project_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "imageRef": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "multiattach": {
+            "type": "boolean",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "snapshot_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "volume_type": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "enum": [
+              "SSD",
+              "GPSSD",
+              "SAS",
+              "SATA",
+              "ESSD",
+              "GPSSD2",
+              "ESSD2"
+            ]
+          },
+          "tags": {
+            "type": "object",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "additionalProperties": {
+              "type": "string",
+              "description": ""
+            }
+          },
+          "iops": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "throughput": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "BssParamForCreateVolume": {
+        "properties": {
+          "chargingMode": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "enum": [
+              "postPaid",
+              "prePaid"
+            ],
+            "default": "postPaid"
+          },
+          "isAutoPay": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "enum": [
+              "true",
+              "false"
+            ],
+            "default": "false"
+          },
+          "isAutoRenew": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "enum": [
+              "true",
+              "false"
+            ],
+            "default": "false"
+          },
+          "periodNum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "periodType": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "enum": [
+              "month",
+              "year"
+            ]
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "CreateVolumeSchedulerHints": {
+        "properties": {
+          "dedicated_storage_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "CreateVolumeResponseBody": {
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "order_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "volume_ids": {
+            "type": "array",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "type": "string",
+              "description": ""
+            }
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "CreateVolumeRequestBody": {
+        "required": [
+          "volume"
+        ],
+        "properties": {
+          "bssParam": {
+            "example": "{        \"chargingMode\": \"prePaid\",         \"periodType\": \"year\",         \"periodNum\": 1,         \"isAutoPay\": \"true\",         \"isAutoRenew\": \"true\"    }",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/BssParamForCreateVolume"
+          },
+          "volume": {
+            "example": "{        \"name\": \"test_volume_3\",         \"availability_zone\": \"az1.dc1\",         \"volume_type\": \"SATA\",         \"size\": 120,         \"description\": \"hehehe\",         \"multiattach\": true,         \"count\": 1    }",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/CreateVolumeOption"
+          },
+          "server_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "OS-SCH-HNT:scheduler_hints": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/CreateVolumeSchedulerHints"
+          }
+        },
+        "description": "This is a auto create Body Object",
+        "type": "object"
+      },
+      "QuotaDetailSnapshotsGPSSD": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailVolumesSATA": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailSnapshotsSAS": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetail": {
+        "required": [
+          "in_use",
+          "limit",
+          "reserved"
+        ],
+        "properties": {
+          "in_use": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "reserved": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaList": {
+        "required": [
+          "backup_gigabytes",
+          "backups",
+          "gigabytes",
+          "id",
+          "snapshots",
+          "volumes"
+        ],
+        "properties": {
+          "backup_gigabytes": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailBackupGigabytes"
+          },
+          "backups": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailBackups"
+          },
+          "gigabytes": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailGigabytes"
+          },
+          "id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "snapshots": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailSnapshots"
+          },
+          "volumes": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailVolumes"
+          },
+          "gigabytes_SATA": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailGigabytesSATA"
+          },
+          "snapshots_SATA": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailSnapshotsSATA"
+          },
+          "volumes_SATA": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailVolumesSATA"
+          },
+          "gigabytes_SAS": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailGigabytesSAS"
+          },
+          "snapshots_SAS": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailSnapshotsSAS"
+          },
+          "volumes_SAS": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailVolumesSAS"
+          },
+          "gigabytes_SSD": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailGigabytesSSD"
+          },
+          "snapshots_SSD": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailSnapshotsSSD"
+          },
+          "volumes_SSD": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailVolumesSSD"
+          },
+          "gigabytes_ESSD": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailGigabytesESSD"
+          },
+          "snapshots_ESSD": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailSnapshotsESSD"
+          },
+          "volumes_ESSD": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailVolumesESSD"
+          },
+          "gigabytes_GPSSD": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailGigabytesGPSSD"
+          },
+          "snapshots_GPSSD": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailSnapshotsGPSSD"
+          },
+          "volumes_GPSSD": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailVolumesGPSSD"
+          },
+          "per_volume_gigabytes": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaDetailPerVolumeGigabytes"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailSnapshotsESSD": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailGigabytesESSD": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailVolumesSSD": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "CinderListQuotasResponseBody": {
+        "required": [
+          "quota_set"
+        ],
+        "properties": {
+          "quota_set": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/QuotaList"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailSnapshots": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailGigabytesSSD": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailGigabytesGPSSD": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailGigabytes": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailSnapshotsSSD": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailPerVolumeGigabytes": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailSnapshotsSATA": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailGigabytesSATA": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailVolumesESSD": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailVolumes": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailVolumesSAS": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailBackupGigabytes": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailBackups": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailVolumesGPSSD": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "QuotaDetailGigabytesSAS": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QuotaDetail"
+          }
+        ],
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "VolumeTypeExtraSpecs": {
+        "properties": {
+          "RESKEY:availability_zones": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "availability-zone": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "os-vendor-extended:sold_out_availability_zones": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "volume_backend_name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "HW:availability_zone": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "CinderListVolumeTypesResponseBody": {
+        "required": [
+          "volume_types"
+        ],
+        "properties": {
+          "volume_types": {
+            "type": "array",
+            "items": {
+              "description": "",
+              "$ref": "#/components/schemas/VolumeType"
+            }
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "VolumeType": {
+        "required": [
+          "id",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "extra_specs": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/VolumeTypeExtraSpecs"
+          },
+          "description": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "qos_specs_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "is_public": {
+            "type": "boolean",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "type": "object"
+      },
+      "CreateSnapshotResponseBody": {
+        "required": [
+          "snapshot"
+        ],
+        "properties": {
+          "snapshot": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/SnapshotDetails"
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "CreateSnapshotOption": {
+        "required": [
+          "volume_id"
+        ],
+        "properties": {
+          "volume_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "force": {
+            "type": "boolean",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "description": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "minLength": 0,
+            "maxLength": 255
+          },
+          "name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "minLength": 0,
+            "maxLength": 255
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "CreateSnapshotRequestBody": {
+        "required": [
+          "snapshot"
+        ],
+        "properties": {
+          "snapshot": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/CreateSnapshotOption"
+          }
+        },
+        "description": "This is a auto create Body Object",
+        "type": "object"
+      },
+      "SnapshotDetails": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "status": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "name": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "description": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "volume_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "os-extended-snapshot-attributes:project_id": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "os-extended-snapshot-attributes:progress": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "CinderAcceptVolumeTransferOption": {
+        "required": [
+          "auth_key"
+        ],
+        "properties": {
+          "auth_key": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "CinderAcceptVolumeTransferResponseBody": {
+        "properties": {
+          "transfer": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/VolumeTransferSummary"
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "CinderAcceptVolumeTransferRequestBody": {
+        "required": [
+          "accept"
+        ],
+        "properties": {
+          "accept": {
+            "example": "{ \"accept\": { \"auth_key\": \"9266c59563c84664\" } }",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/CinderAcceptVolumeTransferOption"
+          }
+        },
+        "description": "This is a auto create Body Object",
+        "type": "object"
+      },
+      "ShowVolumeResponseBody": {
+        "required": [
+          "volume"
+        ],
+        "properties": {
+          "volume": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/VolumeDetail"
+          }
+        },
+        "description": "Huawei Cloud Property (Translation failed)",
+        "type": "object"
+      },
+      "ShowSnapshotResponseBody": {
+        "required": [
+          "snapshot"
+        ],
+        "properties": {
+          "snapshot": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/SnapshotDetails"
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "UpdateSnapshotOption": {
+        "properties": {
+          "description": {
+            "type": "string",
+            "example": "121",
+            "description": "Huawei Cloud Property (Translation failed)"
+          },
+          "name": {
+            "type": "string",
+            "example": "test_volume_1",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "type": "object"
+      },
+      "UpdateSnapshotRequestBody": {
+        "required": [
+          "snapshot"
+        ],
+        "properties": {
+          "snapshot": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/UpdateSnapshotOption"
+          }
+        },
+        "description": "This is a auto create Body Object",
+        "type": "object"
+      },
+      "UpdateSnapshotResponseBody": {
+        "required": [
+          "snapshot"
+        ],
+        "properties": {
+          "snapshot": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "$ref": "#/components/schemas/SnapshotDetails"
+          }
+        },
+        "description": "",
+        "type": "object"
+      },
+      "BatchDeleteVolumeTagsRequestBody": {
+        "required": [
+          "action",
+          "tags"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "example": "delete",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "enum": [
+              "delete"
+            ],
+            "default": "delete"
+          },
+          "tags": {
+            "type": "array",
+            "example": "\"[ { \\\"key\\\": \\\"key1\\\" }, { \\\"key\\\": \\\"key2\\\" } ]\"",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "items": {
+              "$ref": "#/components/schemas/DeleteTagsOption"
+            }
+          }
+        },
+        "description": "This is a auto create Body Object",
+        "type": "object"
+      },
+      "DeleteTagsOption": {
+        "required": [
+          "key"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Huawei Cloud Property (Translation failed)"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {}
+  },
+  "paths": {
+    "/CinderDeleteVolumeTransfer": {
+      "delete": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "CinderDeleteVolumeTransfer",
+        "deprecated": false,
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "transfer_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "x-method": "delete",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "CinderDeleteVolumeTransfer",
+      "x-url": "{endpoint}/v2/{project_id}/os-volume-transfer/{transfer_id}"
+    },
+    "/RollbackSnapshot": {
+      "post": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "RollbackSnapshot",
+        "deprecated": false,
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RollbackSnapshotResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "snapshot_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RollbackSnapshotRequestBody"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "x-method": "post",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "RollbackSnapshot",
+      "x-url": "{endpoint}/v2/{project_id}/cloudsnapshots/{snapshot_id}/rollback"
+    },
+    "/ShowVolumeTags": {
+      "get": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "ShowVolumeTags",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListTagsResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "volume_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "x-method": "get",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "ShowVolumeTags",
+      "x-url": "{endpoint}/v2/{project_id}/cloudvolumes/{volume_id}/tags"
+    },
+    "/RetypeVolume": {
+      "post": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "RetypeVolume",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetypeVolumeResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "volume_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetypeVolumeRequestBody"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "x-method": "post",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "RetypeVolume",
+      "x-url": "{endpoint}/v2/{project_id}/volumes/{volume_id}/retype"
+    },
+    "/ListVolumeTags": {
+      "get": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "ListVolumeTags",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListVolumeTagsResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "x-method": "get",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "ListVolumeTags",
+      "x-url": "{endpoint}/v2/{project_id}/cloudvolumes/tags"
+    },
+    "/ListVolumes": {
+      "get": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "ListVolumes",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListVolumesResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "marker",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "integer",
+              "format": "int32",
+              "default": 1000,
+              "maximum": 1000,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort_dir",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "metadata",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "availability_zone",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "multiattach",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "service_type",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "dedicated_storage_id",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "dedicated_storage_name",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "volume_type_id",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "enterprise_project_id",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "server_id",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "not_metadata",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string",
+              "enum": [
+                "{\"hw:passthrough\":true}",
+                "{\"hw:passthrough\":false}",
+                "{\"__system__encrypted\":1}",
+                "{\"__system__encrypted\":0}"
+              ]
+            }
+          }
+        ]
+      },
+      "x-method": "get",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "ListVolumes",
+      "x-url": "{endpoint}/v2/{project_id}/cloudvolumes/detail"
+    },
+    "/ShowVersion": {
+      "get": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "ShowVersion",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShowVersionResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "version",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string",
+              "enum": [
+                "v1",
+                "v2",
+                "v3"
+              ]
+            }
+          },
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "x-method": "get",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "ShowVersion",
+      "x-url": "{endpoint}/{version}"
+    },
+    "/CinderListVolumeTransfers": {
+      "get": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "CinderListVolumeTransfers",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CinderListVolumeTransfersResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ]
+      },
+      "x-method": "get",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "CinderListVolumeTransfers",
+      "x-url": "{endpoint}/v2/{project_id}/os-volume-transfer"
+    },
+    "/CinderCreateVolumeTransfer": {
+      "post": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "CinderCreateVolumeTransfer",
+        "deprecated": false,
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CinderCreateVolumeTransferResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CinderCreateVolumeTransferRequestBody"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "x-method": "post",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "CinderCreateVolumeTransfer",
+      "x-url": "{endpoint}/v2/{project_id}/os-volume-transfer"
+    },
+    "/CinderListAvailabilityZones": {
+      "get": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "CinderListAvailabilityZones",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CinderListAvailabilityZonesResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "x-method": "get",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "CinderListAvailabilityZones",
+      "x-url": "{endpoint}/v2/{project_id}/os-availability-zone"
+    },
+    "/CinderShowVolumeTransfer": {
+      "get": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "CinderShowVolumeTransfer",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CinderShowVolumeTransferResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "transfer_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "x-method": "get",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "CinderShowVolumeTransfer",
+      "x-url": "{endpoint}/v2/{project_id}/os-volume-transfer/{transfer_id}"
+    },
+    "/ListSnapshots": {
+      "get": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "ListSnapshots",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListSnapshotsResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "volume_id",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "availability_zone",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "dedicated_storage_name",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "dedicated_storage_id",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "service_type",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "enterprise_project_id",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "x-method": "get",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "ListSnapshots",
+      "x-url": "{endpoint}/v2/{project_id}/cloudsnapshots/detail"
+    },
+    "/ResizeVolume": {
+      "post": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "ResizeVolume",
+        "deprecated": false,
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResizeVolumeResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "volume_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResizeVolumeRequestBody"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "x-method": "post",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "ResizeVolume",
+      "x-url": "{endpoint}/v2.1/{project_id}/cloudvolumes/{volume_id}/action"
+    },
+    "/ListVolumesByTags": {
+      "post": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "ListVolumesByTags",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListVolumesByTagsResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListVolumesByTagsRequestBody"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "x-method": "post",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "ListVolumesByTags",
+      "x-url": "{endpoint}/v2/{project_id}/cloudvolumes/resource_instances/action"
+    },
+    "/DeleteVolume": {
+      "delete": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "DeleteVolume",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteVolumeResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "volume_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "x-method": "delete",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "DeleteVolume",
+      "x-url": "{endpoint}/v2/{project_id}/cloudvolumes/{volume_id}"
+    },
+    "/UpdateVolume": {
+      "put": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "UpdateVolume",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateVolumeResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "volume_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateVolumeRequestBody"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "x-method": "put",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "UpdateVolume",
+      "x-url": "{endpoint}/v2/{project_id}/cloudvolumes/{volume_id}"
+    },
+    "/DeleteSnapshot": {
+      "delete": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "DeleteSnapshot",
+        "deprecated": false,
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "snapshot_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "x-method": "delete",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "DeleteSnapshot",
+      "x-url": "{endpoint}/v2/{project_id}/cloudsnapshots/{snapshot_id}"
+    },
+    "/UnsubscribePostpaidVolume": {
+      "post": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "UnsubscribePostpaidVolume",
+        "responses": {
+          "202": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UnsubscribeVolumeResponseBody"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnsubscribeVolumeRequestBody"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "x-method": "post",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "UnsubscribePostpaidVolume",
+      "x-url": "{endpoint}/v2/{project_id}/cloudvolumes/unsubscribe"
+    },
+    "/BatchCreateVolumeTags": {
+      "post": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "BatchCreateVolumeTags",
+        "deprecated": false,
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "volume_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchCreateVolumeTagsRequestBody"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "x-method": "post",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "BatchCreateVolumeTags",
+      "x-url": "{endpoint}/v2/{project_id}/cloudvolumes/{volume_id}/tags/action"
+    },
+    "/ShowJob": {
+      "get": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "ShowJob",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShowJobResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "job_id",
+            "in": "path",
+            "description": "job ID。",
+            "required": true,
+            "schema": {
+              "description": "job ID。",
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "x-method": "get",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "ShowJob",
+      "x-url": "{endpoint}/v1/{project_id}/jobs/{job_id}"
+    },
+    "/ModifyVolumeQoS": {
+      "put": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "ModifyVolumeQoS",
+        "deprecated": false,
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "volume_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModifyVolumeQoSRequestBody"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "x-method": "put",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "ModifyVolumeQoS",
+      "x-url": "{endpoint}/v5/{project_id}/cloudvolumes/{volume_id}/qos"
+    },
+    "/CreateVolume": {
+      "post": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "CreateVolume",
+        "deprecated": false,
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateVolumeResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Client-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "example": "7a1bb31b-ccad-4beb-9340-3a0de70cadb4",
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateVolumeRequestBody"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "x-method": "post",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "CreateVolume",
+      "x-url": "{endpoint}/v2.1/{project_id}/cloudvolumes"
+    },
+    "/CinderListQuotas": {
+      "get": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "CinderListQuotas",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CinderListQuotasResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "target_project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "usage",
+            "in": "query",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string",
+              "enum": [
+                "True"
+              ]
+            }
+          }
+        ]
+      },
+      "x-method": "get",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "CinderListQuotas",
+      "x-url": "{endpoint}/v2/{project_id}/os-quota-sets/{target_project_id}"
+    },
+    "/ListVersions": {
+      "get": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "ListVersions",
+        "deprecated": false,
+        "responses": {
+          "300": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShowVersionResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "x-method": "get",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "ListVersions",
+      "x-url": "{endpoint}/"
+    },
+    "/CinderListVolumeTypes": {
+      "get": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "CinderListVolumeTypes",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CinderListVolumeTypesResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": false,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "x-method": "get",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "CinderListVolumeTypes",
+      "x-url": "{endpoint}/v2/{project_id}/types"
+    },
+    "/CreateSnapshot": {
+      "post": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "CreateSnapshot",
+        "deprecated": false,
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateSnapshotResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSnapshotRequestBody"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "x-method": "post",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "CreateSnapshot",
+      "x-url": "{endpoint}/v2/{project_id}/cloudsnapshots"
+    },
+    "/CinderAcceptVolumeTransfer": {
+      "post": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "CinderAcceptVolumeTransfer",
+        "deprecated": false,
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CinderAcceptVolumeTransferResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "transfer_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CinderAcceptVolumeTransferRequestBody"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "x-method": "post",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "CinderAcceptVolumeTransfer",
+      "x-url": "{endpoint}/v2/{project_id}/os-volume-transfer/{transfer_id}/accept"
+    },
+    "/ShowVolume": {
+      "get": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "ShowVolume",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "Huawei Cloud Property (Translation failed)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShowVolumeResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "volume_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "x-method": "get",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "ShowVolume",
+      "x-url": "{endpoint}/v2/{project_id}/cloudvolumes/{volume_id}"
+    },
+    "/ShowSnapshot": {
+      "get": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "ShowSnapshot",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShowSnapshotResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "snapshot_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "x-method": "get",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "ShowSnapshot",
+      "x-url": "{endpoint}/v2/{project_id}/cloudsnapshots/{snapshot_id}"
+    },
+    "/UpdateSnapshot": {
+      "put": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "UpdateSnapshot",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateSnapshotResponseBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "snapshot_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSnapshotRequestBody"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "x-method": "put",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "UpdateSnapshot",
+      "x-url": "{endpoint}/v2/{project_id}/cloudsnapshots/{snapshot_id}"
+    },
+    "/BatchDeleteVolumeTags": {
+      "post": {
+        "tags": [
+          "Huawei Cloud Property (Translation failed)"
+        ],
+        "summary": "Huawei Cloud Property (Translation failed)",
+        "description": "Huawei Cloud Property (Translation failed)",
+        "operationId": "BatchDeleteVolumeTags",
+        "deprecated": false,
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseBody"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Auth-Token",
+            "in": "header",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          },
+          {
+            "name": "volume_id",
+            "in": "path",
+            "description": "Huawei Cloud Property (Translation failed)",
+            "required": true,
+            "schema": {
+              "description": "Huawei Cloud Property (Translation failed)",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchDeleteVolumeTagsRequestBody"
+              }
+            }
+          },
+          "required": true
+        }
+      },
+      "x-method": "post",
+      "x-content-type": "application/json;charset=UTF-8",
+      "x-operationId": "BatchDeleteVolumeTags",
+      "x-url": "{endpoint}/v2/{project_id}/cloudvolumes/{volume_id}/tags/action"
+    }
+  }
+}

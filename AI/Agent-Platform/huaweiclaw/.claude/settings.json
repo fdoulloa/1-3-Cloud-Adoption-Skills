@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "zaturn": {
+      "command": "/root/.local/bin/uv",
+      "args": ["tool", "run", "--from", "zaturn", "zaturn_mcp"],
+      "env": {
+        "ZATURN_SOURCES": "mysql+pymysql://root:Andrea1980$@94.74.111.138:3306/test"
+      }
+    },
+    "superpowers": {
+      "command": "npx",
+      "args": ["-y", "superpowers-mcp"]
+    },
+    "echarts": {
+      "command": "npx",
+      "args": ["-y", "mcp-echarts"]
+    }
+  }
+}

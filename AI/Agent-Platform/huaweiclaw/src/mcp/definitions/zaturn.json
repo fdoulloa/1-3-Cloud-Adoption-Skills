@@ -1,0 +1,100 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Zaturn",
+    "description": "Zaturn - AI-powered Data Analysis & BI Tool",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/list_data_sources": {
+      "get": {
+        "operationId": "list_data_sources",
+        "description": "Lista todas las fuentes de datos conectadas.",
+        "responses": {
+          "200": {
+            "description": "Lista de fuentes de datos."
+          }
+        }
+      }
+    },
+    "/list_tables": {
+      "post": {
+        "operationId": "list_tables",
+        "description": "Lista todas las tablas disponibles en la fuente de datos especificada.",
+        "parameters": [
+          {
+            "name": "source_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de tablas."
+          }
+        }
+      }
+    },
+    "/describe_table": {
+      "post": {
+        "operationId": "describe_table",
+        "description": "Obtiene el esquema y metadatos de las columnas para una tabla específica.",
+        "parameters": [
+          {
+            "name": "source_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "table_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Esquema de la tabla."
+          }
+        }
+      }
+    },
+    "/run_query": {
+      "post": {
+        "operationId": "run_query",
+        "description": "Ejecuta una consulta SQL en la fuente de datos especificada.",
+        "parameters": [
+          {
+            "name": "source_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado de la consulta."
+          }
+        }
+      }
+    }
+  }
+}
