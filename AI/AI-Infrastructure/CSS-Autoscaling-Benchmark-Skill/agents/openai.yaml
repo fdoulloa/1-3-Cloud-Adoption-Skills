@@ -1,0 +1,4 @@
+interface:
+  display_name: "CSS Autoscaling Benchmark"
+  short_description: "Benchmark and autoscaling test for Huawei Cloud CSS"
+  default_prompt: "Use $css-autoscaling-benchmark-skill to run performance benchmarks, load tests, and autoscaling validation against a Huawei Cloud CSS (OpenSearch) cluster."
