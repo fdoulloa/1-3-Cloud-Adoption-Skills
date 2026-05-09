@@ -1,0 +1,18 @@
+[
+  {
+    "timestamp": "2026-05-08T16:19:20.282453+00:00",
+    "source_service": "css",
+    "resource_id": "cluster-abc123",
+    "severity": "warning",
+    "message": "High CPU usage detected on data node 1",
+    "log_level": "WARN"
+  },
+  {
+    "timestamp": "2026-05-08T16:19:20.282453+00:00",
+    "source_service": "css",
+    "resource_id": "cluster-abc123",
+    "severity": "error",
+    "message": "Query timeout after 30s on index ops_logs-2026.05",
+    "log_level": "ERROR"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "timestamp": "2026-05-08T16:19:20.275763+00:00",
+    "metric_name": "cpu_utilization",
+    "namespace": "SYS.CSS",
+    "resource_id": "cluster-abc123",
+    "value": 92.5,
+    "unit": "%"
+  },
+  {
+    "timestamp": "2026-05-08T16:19:20.275763+00:00",
+    "metric_name": "mem_utilization",
+    "namespace": "SYS.CSS",
+    "resource_id": "cluster-abc123",
+    "value": 78.3,
+    "unit": "%"
+  },
+  {
+    "timestamp": "2026-05-08T16:19:20.275763+00:00",
+    "metric_name": "disk_utilization",
+    "namespace": "SYS.CSS",
+    "resource_id": "cluster-abc123",
+    "value": 65.1,
+    "unit": "%"
+  }
+]

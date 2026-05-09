@@ -1,0 +1,32 @@
+{
+  "index_patterns": ["ops_incidents-*"],
+  "template": {
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1,
+      "refresh_interval": "1s"
+    },
+    "mappings": {
+      "properties": {
+        "timestamp": {"type": "date", "format": "strict_date_optional_time||epoch_millis"},
+        "incident_id": {"type": "keyword"},
+        "alert_type": {"type": "keyword"},
+        "alert_source": {"type": "keyword"},
+        "severity": {"type": "keyword"},
+        "resource_id": {"type": "keyword"},
+        "resource_type": {"type": "keyword"},
+        "region": {"type": "keyword"},
+        "root_cause": {"type": "text", "analyzer": "standard", "fields": {"keyword": {"type": "keyword"}}},
+        "confidence_score": {"type": "double"},
+        "recommended_action": {"type": "text"},
+        "action_level": {"type": "keyword"},
+        "approval_status": {"type": "keyword"},
+        "execution_result": {"type": "object", "enabled": false},
+        "verification_status": {"type": "keyword"},
+        "agent_version": {"type": "keyword"},
+        "trace_id": {"type": "keyword"},
+        "correlation_id": {"type": "keyword"}
+      }
+    }
+  }
+}

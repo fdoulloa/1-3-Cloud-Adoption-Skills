@@ -1,0 +1,22 @@
+# Credentials
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Pytest
+.pytest_cache/
+
+# Agent runtime
+aiops_checkpoints.db
+aiops_loop.log
+logs/
+
+# IDE
+.idea/
+.vscode/
+*.swp

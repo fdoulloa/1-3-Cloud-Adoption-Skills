@@ -1,0 +1,19 @@
+[Unit]
+Description=AIOps Agent Continuous Loop
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/aiops-agent
+Environment=AIOPS_CYCLE_SLEEP=120
+Environment=AIOPS_MAX_CYCLES=0
+Environment=AIOPS_AGENT_DIR=/opt/aiops-agent
+ExecStart=/usr/bin/python3 /opt/aiops-agent/scripts/aiops_loop.py
+Restart=on-failure
+RestartSec=30
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

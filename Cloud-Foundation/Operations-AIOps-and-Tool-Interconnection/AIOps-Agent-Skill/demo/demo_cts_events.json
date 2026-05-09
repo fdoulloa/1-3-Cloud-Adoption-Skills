@@ -1,0 +1,11 @@
+[
+  {
+    "timestamp": "2026-05-08T16:19:20.279060+00:00",
+    "trace_name": "updateCssCluster",
+    "trace_type": "ConsoleApi",
+    "resource_id": "cluster-abc123",
+    "resource_type": "css_cluster",
+    "user_name": "admin",
+    "code": 200
+  }
+]

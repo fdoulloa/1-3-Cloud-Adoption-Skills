@@ -1,0 +1,11 @@
+region          = "la-north-2"
+prefix          = "aiops"
+project_id      = ""
+approval_email  = "ops-team@example.com"
+vpc_cidr        = "192.168.0.0/16"
+subnet_cidr     = "192.168.0.0/24"
+operator_cidr   = "10.0.0.0/8"
+css_node_count  = 3
+css_flavor      = "ess.spec-4u8g"
+css_volume_size = 40
+ecs_flavor      = "c7.large.2"

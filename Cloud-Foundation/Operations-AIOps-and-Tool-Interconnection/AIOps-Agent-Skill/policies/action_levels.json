@@ -1,0 +1,67 @@
+{
+  "L0_read_only": {
+    "description": "Read-only operations. Always allowed. No approval required.",
+    "tools": [
+      "aom.list_alarms",
+      "aom.show_alarm_history",
+      "aom.list_components",
+      "aom.show_component_metrics",
+      "ces.list_metrics",
+      "ces.show_metric_data",
+      "ces.list_alarms",
+      "ces.show_alarm_history",
+      "cts.list_traces",
+      "cts.list_trace_quotas",
+      "css.get_cluster_info",
+      "css.get_cluster_status",
+      "css.get_data_node_count",
+      "ecs.show_server",
+      "ecs.list_servers",
+      "cce.list_pods",
+      "cce.show_pod",
+      "css_log.query",
+      "css_log.correlate",
+      "css_log.search_incidents",
+      "prometheus.query",
+      "prometheus.query_range",
+      "prometheus.get_alerts"
+    ]
+  },
+  "L1_suggest": {
+    "description": "Suggest actions. Agent recommends but does not execute. Human decides.",
+    "tools": [
+      "runbook.lookup",
+      "runbook.render",
+      "runbook.preview",
+      "diagnosis.explain",
+      "diagnosis.recommend"
+    ]
+  },
+  "L2_approve_and_execute": {
+    "description": "Execute after human approval. Requires approval_token.",
+    "tools": [
+      "css.scale_out_data_nodes",
+      "css.scale_in_data_nodes",
+      "ecs.resize_server",
+      "ecs.reboot_server",
+      "cce.restart_pod",
+      "cce.scale_deployment",
+      "functiongraph.invoke_remediation",
+      "vpn.recreate_connection",
+      "cbr.retry_backup"
+    ]
+  },
+  "L3_forbidden": {
+    "description": "Never allowed. Would cause data loss or security breach.",
+    "tools": [
+      "ecs.delete_server",
+      "css.delete_cluster",
+      "cce.delete_cluster",
+      "obs.delete_bucket",
+      "iam.delete_user",
+      "iam.delete_role",
+      "vpc.delete_vpc",
+      "cbr.delete_vault"
+    ]
+  }
+}
