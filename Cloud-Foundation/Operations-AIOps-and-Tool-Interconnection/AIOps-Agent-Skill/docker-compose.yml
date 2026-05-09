@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  aiops-agent:
+    build: .
+    env_file: .env
+    environment:
+      - AIOPS_CYCLE_SLEEP=120
+      - AIOPS_MAX_CYCLES=0
+      - AIOPS_AGENT_DIR=/opt/aiops-agent
+    volumes:
+      - ./logs:/opt/aiops-agent/logs
+    restart: unless-stopped

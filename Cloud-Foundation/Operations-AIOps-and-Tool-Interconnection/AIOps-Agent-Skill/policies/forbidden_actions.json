@@ -1,0 +1,23 @@
+{
+  "description": "L3 forbidden operations. Never allowed under any circumstances. Would cause data loss or security breach.",
+  "forbidden_tools": [
+    "ecs.delete_server",
+    "css.delete_cluster",
+    "cce.delete_cluster",
+    "obs.delete_bucket",
+    "iam.delete_user",
+    "iam.delete_role",
+    "vpc.delete_vpc",
+    "cbr.delete_vault"
+  ],
+  "rationale": {
+    "ecs.delete_server": "Destroys compute instance and local data",
+    "css.delete_cluster": "Destroys search cluster and all indexed data",
+    "cce.delete_cluster": "Destroys container cluster and all workloads",
+    "obs.delete_bucket": "Destroys object storage and all objects",
+    "iam.delete_user": "Removes IAM identity, breaks access",
+    "iam.delete_role": "Removes IAM role, breaks authorization",
+    "vpc.delete_vpc": "Destroys network, disconnects all resources",
+    "cbr.delete_vault": "Destroys backup vault and all backups"
+  }
+}

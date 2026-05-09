@@ -1,0 +1,85 @@
+# AIOps Agent Architecture
+
+## Data Flow
+
+```
+LTS (logs) ──→ CSS ops_logs-*
+CTS (audit) ──→ CSS ops_cts-*
+AOM/CES (metrics) ──→ CSS ops_metrics-*
+                         │
+              Anomaly Detection (LLM + statistical)
+                         │
+              Alert Governance (L0/L1/L2/L3)
+                         │
+              Remediation (FunctionGraph / SDK)
+```
+
+## Component Diagram
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     Huawei Cloud Services                    │
+│  ┌─────┐  ┌─────┐  ┌─────┐  ┌─────────┐  ┌─────┐  ┌─────┐ │
+│  │ LTS │  │ CTS │  │ AOM │  │   CES   │  │ SMN │  │ OBS │ │
+│  └──┬──┘  └──┬──┘  └──┬──┘  └────┬────┘  └──┬──┘  └──┬──┘ │
+│     │        │        │          │           │        │     │
+│     ▼        ▼        ▼          ▼           │        │     │
+│  ┌──────────────────────────────────────┐    │        │     │
+│  │     CSS / OpenSearch Cluster         │    │        │     │
+│  │  ops_logs  ops_metrics  ops_alerts  │    │        │     │
+│  │  ops_cts   ops_incidents            │    │        │     │
+│  │  + Anomaly Detection plugin         │    │        │     │
+│  │  + Alerting plugin                  │    │        │     │
+│  └──────────────────┬───────────────────┘    │        │     │
+└─────────────────────┼────────────────────────┼────────┼─────┘
+                      │                        │        │
+┌─────────────────────┼────────────────────────┼────────┼─────┐
+│  AIOps Agent (ECS)  │                        │        │     │
+│                     ▼                        │        │     │
+│  ┌──────────────────────────────────────┐    │        │     │
+│  │  LangGraph State Machine             │    │        │     │
+│  │  Observe→Diagnose→Recommend→Preview  │    │        │     │
+│  │  →Approve→Execute→Verify→Report     │    │        │     │
+│  └──────────────────┬───────────────────┘    │        │     │
+│                     │                        │        │     │
+│  ┌────────────┐    │    ┌───────────────┐    │        │     │
+│  │ LlamaIndex │◄───┤    │ Action Policy │    │        │     │
+│  │ Knowledge  │    │    │ L0/L1/L2/L3   │    │        │     │
+│  └────────────┘    │    └───────┬───────┘    │        │     │
+│                     │            │            │        │     │
+│  ┌────────────┐    │    ┌───────▼───────┐    │        │     │
+│  │ MaaS GLM   │    │    │ Approval Token│───►│        │     │
+│  │ (LLM)      │    │    │ HMAC-SHA256   │    │        │     │
+│  └────────────┘    │    └───────┬───────┘    │        │     │
+│                     │            │            │        │     │
+│  ┌────────────┐    │    ┌───────▼───────┐    │        │     │
+│  │ Prometheus/ │    │    │ Remediation   │    │        │     │
+│  │ Grafana    │    │    │ Executor      │    │        │     │
+│  └────────────┘    │    └───────┬───────┘    │        │     │
+│                     │            │            │        │     │
+│  ┌──────────────────▼────────────▼────────────▼────────▼──┐ │
+│  │              OpenTelemetry Tracing                       │ │
+│  └─────────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────────────────────────┐
+│  FunctionGraph (auto-remediation functions)                   │
+│  css_scale_out │ ecs_reboot │ cce_restart_pod │ vpn_reconnect│
+└──────────────────────────────────────────────────────────────┘
+```
+
+## Key Integration Points
+
+| Component | Protocol | Purpose |
+|-----------|----------|---------|
+| LTS -> CSS | SDK + opensearch-py bulk | Log ingestion pipeline |
+| CTS -> CSS | SDK + opensearch-py bulk | Audit trail ingestion |
+| AOM/CES -> Agent | Huawei SDK | Metric collection, alarm queries |
+| CSS -> Agent | opensearch-py | Log correlation, incident search |
+| MaaS -> Agent | OpenAI-compatible API | LLM inference for diagnosis |
+| LlamaIndex -> CSS | OpenSearchVectorStore | Knowledge retrieval |
+| Agent -> SMN | Huawei SDK | Approval notifications |
+| Agent -> FunctionGraph | Huawei SDK | Auto-remediation execution |
+| Agent -> OBS | Huawei SDK | Report and state persistence |
+| All components | OpenTelemetry | Distributed tracing |

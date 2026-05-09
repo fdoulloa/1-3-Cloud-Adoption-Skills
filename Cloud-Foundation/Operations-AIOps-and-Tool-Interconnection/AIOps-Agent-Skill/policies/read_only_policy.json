@@ -1,0 +1,28 @@
+{
+  "description": "L0 read-only tool allowlist. Used when agent runs in strict read-only mode.",
+  "allowed_tools": [
+    "aom.list_alarms",
+    "aom.show_alarm_history",
+    "aom.list_components",
+    "aom.show_component_metrics",
+    "ces.list_metrics",
+    "ces.show_metric_data",
+    "ces.list_alarms",
+    "ces.show_alarm_history",
+    "cts.list_traces",
+    "cts.list_trace_quotas",
+    "css.get_cluster_info",
+    "css.get_cluster_status",
+    "css.get_data_node_count",
+    "ecs.show_server",
+    "ecs.list_servers",
+    "cce.list_pods",
+    "cce.show_pod",
+    "css_log.query",
+    "css_log.correlate",
+    "css_log.search_incidents",
+    "prometheus.query",
+    "prometheus.query_range",
+    "prometheus.get_alerts"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "index_patterns": ["ops_cts-*"],
+  "template": {
+    "settings": {
+      "number_of_shards": 3,
+      "number_of_replicas": 1,
+      "refresh_interval": "5s"
+    },
+    "mappings": {
+      "properties": {
+        "timestamp": {"type": "date", "format": "strict_date_optional_time||epoch_millis"},
+        "trace_id": {"type": "keyword"},
+        "trace_name": {"type": "keyword"},
+        "trace_type": {"type": "keyword"},
+        "trace_status": {"type": "keyword"},
+        "resource_id": {"type": "keyword"},
+        "resource_type": {"type": "keyword"},
+        "resource_name": {"type": "keyword"},
+        "region": {"type": "keyword"},
+        "user_name": {"type": "keyword"},
+        "user_domain": {"type": "keyword"},
+        "api_version": {"type": "keyword"},
+        "request": {"type": "text"},
+        "response": {"type": "text"},
+        "code": {"type": "integer"},
+        "correlation_id": {"type": "keyword"}
+      }
+    }
+  }
+}
