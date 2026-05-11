@@ -47,6 +47,7 @@ Use this index when Codex, Claude Code, or another AI agent needs to locate the 
 | 27 | AI | AI Development | [LiteLLM SearXNG AICoding Gateway Single ECS](./AI/AI-Development/LiteLLM-SearXNG-AICoding-Gateway-Single-ECS/README.md) | Deploy a single Huawei Cloud ECS that fronts MaaS through LiteLLM and exposes SearXNG as a bearer-auth remote MCP, integrated into Claude Code via claude-code-router with `CLAUDE_CONFIG_DIR` isolation. |
 | 28 | AI | Responsible AI and Governance | [Langfuse LLM Observability](./AI/Responsible-AI-and-Governance/langfuse-llm-observability/SKILL.md) | Deploy or integrate Langfuse for LLM tracing, generations, usage, latency, cost, errors, evaluations, prompt management, and observability workflows. |
 | 29 | AI | Responsible AI and Governance | [OpenLLMetry Huawei MaaS Agent](./AI/Responsible-AI-and-Governance/openllmetry-huawei-maas-agent/SKILL.md) | Instrument Huawei MaaS-backed agents with OpenLLMetry, Traceloop, and OpenTelemetry while preventing API keys and prompt content from leaking into telemetry. |
+| 30 | AI | AI Infrastructure | [detectron2 Ascend NPU Demo](./AI/AI-Infrastructure/detectron2-ascend-demo.md) | Deploy and test detectron2 on Huawei Ascend 910B3 NPU (ModelArts) with COCO val2017 and OGNet oil/gas refinery inference demos, NPU compatibility patches, result packaging, and test report generation. |
 
 ## How To Navigate This Repository
 

@@ -10,6 +10,12 @@ This use case covers the compute and platform foundation required for AI workloa
 - Hybrid cloud AI deployment
 - Capacity and environment governance
 
+## Skills
+
+| Skill | Description |
+|---|---|
+| [detectron2-ascend-demo](./detectron2-ascend-demo.md) | Deploy and test detectron2 on Huawei Ascend 910B3 NPU (ModelArts) with COCO val2017 and OGNet oil/gas refinery inference demos. |
+
 ## Expected Outputs
 
 - AI infrastructure architecture
