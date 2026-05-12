@@ -20,10 +20,12 @@ references/
   aicoding-agent-integration.md                ccr + claude-glm + LiteLLM
   searxng-mcp.md                               FastMCP HTTP transport detail
   troubleshooting.md                           every issue we hit + fix
+  architecture.md                              topology, FinOps, cache, scaling
 assets/config/
   litellm.env.example                          /etc/litellm/litellm.env
   litellm.config.yaml.example                  /etc/litellm/config.yaml
   litellm.service.example                      systemd unit
+  redis-local.conf.example                     Redis config template
   searxng-docker-compose.yml                   /opt/searxng/docker-compose.yml
   searxng-settings.yml                         /opt/searxng/searxng/settings.yml
   searxng_mcp_server.py                        /opt/searxng-mcp/server.py
@@ -35,6 +37,8 @@ scripts/
   install_searxng_and_mcp.sh                   run on ECS
   wire_claude_glm.sh                           run on laptop
   validate_e2e.sh                              run on laptop
+  bootstrap_finops_team.py                     FinOps team + key bootstrap
+  validate_single_ecs.py                       Python proxy-only validator
 ```
 
 ## One-shot deploy
@@ -66,3 +70,19 @@ bash scripts/validate_e2e.sh
 
 After this, `claude-glm` works end-to-end through LiteLLM and can call
 `mcp__searxng__web_search`. Plain `claude` is unchanged.
+
+## MaaS-Only Utilities
+
+The following files are carried over from the MaaS-only skill
+(`litellm-huawei-maas-single-ecs`) for operators who need them independently
+of the full gateway stack:
+
+- `assets/config/redis-local.conf.example` — reference Redis config (for
+  source-built Redis or `redis-local.service`)
+- `references/architecture.md` — single-ECS topology, FinOps hierarchy,
+  multi-user proxy design, cache design, config responsibilities, scaling
+  limits
+- `scripts/bootstrap_finops_team.py` — create a LiteLLM team + scoped virtual
+  key for FinOps onboarding
+- `scripts/validate_single_ecs.py` — lightweight Python validator for direct
+  MaaS and proxied LiteLLM access

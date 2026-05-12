@@ -48,6 +48,10 @@ If the user only gives one model, prefer explicit routing for that model (`huawe
 
 Inherit all rules from `litellm-huawei-maas-single-ecs` (explicit model mappings, local-only Redis/PostgreSQL, env-file secrets, systemd everywhere, validate both direct and proxied paths, FinOps pricing, multi-user keys). Additionally:
 
+- For budget enforcement, always confirm the exposed model has non-zero `input_cost_per_token` and `output_cost_per_token`; otherwise successful calls may not consume spend.
+- For multi-user proxying, keep the master key admin-only and mint child keys per team, service, or environment.
+- For cache design, distinguish Redis-backed response caching (latency optimization, affects upstream spend) from auth-key metadata caching (`user_api_key_cache_ttl`, control-plane efficiency only) and explain both clearly.
+
 - **Never write AK/SK, MaaS keys, virtual keys, or bearer tokens into committed files**. They go into env files with `0640 root:litellm` (or equivalent). Generated assets must reference `os.environ/...` or `$VAR_NAME` placeholders.
 - **`claude-glm` must point at LiteLLM, not directly at MaaS**, so spend, rate limits, caching, and audit live in one place.
 - **`claude-glm` must use `CLAUDE_CONFIG_DIR` isolation** so MCP registration, settings, and history do not pollute the user's regular `claude`.
@@ -405,6 +409,17 @@ bash scripts/install_claude_glm_client.sh
 
 Full client recipe (manual install, day-2 ops, off-boarding) is in [references/laptop-client-onboarding.md](references/laptop-client-onboarding.md).
 
+### Day-One FinOps Configuration
+
+If the deployment needs FinOps and multi-user controls from day one, also configure:
+
+- Redis-backed LiteLLM response cache in `litellm_settings`
+- `general_settings.user_api_key_cache_ttl` to reduce repeated PostgreSQL lookups for hot keys
+- explicit model allow-lists on generated team keys
+- per-team `max_budget`, `budget_duration`, `tpm_limit`, and `rpm_limit`
+
+Use [scripts/bootstrap_finops_team.py](scripts/bootstrap_finops_team.py) to create a team and mint a scoped virtual key in one shot. For the full FinOps hierarchy, budget controls, virtual-key operations, and currency conversion, see [references/architecture.md](references/architecture.md).
+
 ## Health Check Interpretation
 
 Inherits everything from `litellm-huawei-maas-single-ecs`. New cases:
@@ -441,14 +456,18 @@ When completing the task, leave behind:
 
 ## Bundled Resources
 
+Use bundled resources selectively. For architecture, FinOps, multi-user isolation, spend control, or cache design, read [references/architecture.md](references/architecture.md). For FinOps team/key bootstrap, use [scripts/bootstrap_finops_team.py](scripts/bootstrap_finops_team.py). For lightweight proxy-only validation, use [scripts/validate_single_ecs.py](scripts/validate_single_ecs.py).
+
 - [references/deployment-walkthrough.md](references/deployment-walkthrough.md) — full chronological recipe, copy-paste ready.
 - [references/aicoding-agent-integration.md](references/aicoding-agent-integration.md) — Claude Code + ccr + LiteLLM + isolation.
 - [references/searxng-mcp.md](references/searxng-mcp.md) — FastMCP HTTP transport details.
 - [references/laptop-client-onboarding.md](references/laptop-client-onboarding.md) — onboarding additional client laptops onto an already-running gateway.
 - [references/troubleshooting.md](references/troubleshooting.md) — every issue we hit, with the actual fix.
+- [references/architecture.md](references/architecture.md) — single-ECS topology, FinOps design, multi-user proxy design, cache design, config responsibilities, scaling limits.
 - [assets/config/litellm.config.yaml.example](assets/config/litellm.config.yaml.example)
 - [assets/config/litellm.env.example](assets/config/litellm.env.example)
 - [assets/config/litellm.service.example](assets/config/litellm.service.example)
+- [assets/config/redis-local.conf.example](assets/config/redis-local.conf.example) — reference Redis config template (for source-built Redis or `redis-local.service`).
 - [assets/config/searxng-docker-compose.yml](assets/config/searxng-docker-compose.yml)
 - [assets/config/searxng-settings.yml](assets/config/searxng-settings.yml)
 - [assets/config/searxng_mcp_server.py](assets/config/searxng_mcp_server.py)
@@ -460,3 +479,5 @@ When completing the task, leave behind:
 - [scripts/wire_claude_glm.sh](scripts/wire_claude_glm.sh) — operator-side: mints a virtual key, then wires ccr + CLAUDE_CONFIG_DIR + MCP on the laptop the operator deployed from.
 - [scripts/install_claude_glm_client.sh](scripts/install_claude_glm_client.sh) — client-side: takes a pre-issued virtual key + bearer token + ECS IP and wires a teammate's laptop onto an already-running gateway.
 - [scripts/validate_e2e.sh](scripts/validate_e2e.sh) — runs all health checks in order.
+- [scripts/bootstrap_finops_team.py](scripts/bootstrap_finops_team.py) — creates a LiteLLM team and mints a scoped virtual key for FinOps onboarding.
+- [scripts/validate_single_ecs.py](scripts/validate_single_ecs.py) — Python validator for direct MaaS and proxied LiteLLM access (lighter-weight than validate_e2e.sh).
