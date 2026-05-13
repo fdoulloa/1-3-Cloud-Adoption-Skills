@@ -180,6 +180,8 @@ See [assets/config/litellm.env.example](assets/config/litellm.env.example). Crit
 - `PRISMA_QUERY_ENGINE_BINARY=` absolute path to the engine binary that Prisma fetched (see Prisma section).
 - `HOME=/opt/litellm` so Prisma's config loader does not try to read the invoking user's `pyproject.toml`.
 - `PATH=/opt/litellm-venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin` so LiteLLM's startup `subprocess.run(["prisma"])` finds the CLI under systemd.
+- `UI_USERNAME=admin` — username for the LiteLLM Admin UI login.
+- `UI_PASSWORD=<a-strong-secret>` — password for the LiteLLM Admin UI login. **Do not reuse the master key** in production; generate a separate secret.
 
 `/etc/litellm/config.yaml`:
 
@@ -187,6 +189,15 @@ See [assets/config/litellm.config.yaml.example](assets/config/litellm.config.yam
 
 - `input_cost_per_token: 1.078e-06`
 - `output_cost_per_token: 3.774e-06`
+
+Add `ui_login_mode: username_password` under `general_settings` to enable the username/password login form in the UI:
+
+```yaml
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  database_url: os.environ/DATABASE_URL
+  ui_login_mode: username_password
+```
 
 ### 8. Bootstrap Prisma BEFORE first start
 
@@ -254,6 +265,44 @@ Validate in this order; do not skip steps:
 6. LiteLLM `/key/generate` — mints a virtual key.
 7. LiteLLM `/v1/chat/completions` with the virtual key — proves multi-user path and budget hooks.
 8. LiteLLM `/model/info` — confirms non-zero `input_cost_per_token` and `output_cost_per_token` (otherwise budgets do not bite).
+
+### 10a. Access the LiteLLM Admin UI
+
+LiteLLM ships a built-in admin dashboard for managing virtual keys, teams, spend, and budgets. After step 10, the UI is available at `http://<ECS_PUBLIC_IP>:4000/ui/`.
+
+**Login credentials:**
+
+| Field | Value |
+|---|---|
+| Username | `$UI_USERNAME` from `/etc/litellm/litellm.env` |
+| Password | `$UI_PASSWORD` from `/etc/litellm/litellm.env` |
+
+**Known issue — browser login form returns "Invalid credentials":**
+
+In some LiteLLM builds derived from the older `/login` flow, the UI login page can report `401 Invalid credentials` even when `UI_USERNAME` and `UI_PASSWORD` are set correctly. Treat this as a version-specific UI bug, not as proof that the backend rejected the credentials.
+
+Recommended handling:
+
+1. **Verify the backend accepts the credentials first:** check the login endpoint directly from the ECS host. A `303` confirms the backend accepted the credentials and the problem is UI-side:
+
+   ```
+   curl -X POST http://127.0.0.1:4000/login \
+     -H "Content-Type: application/x-www-form-urlencoded" \
+     -d "username=$UI_USERNAME&password=$UI_PASSWORD" \
+     -o /dev/null -w "%{http_code}\n"
+   ```
+
+2. **If the backend accepts the credentials but the UI still fails, upgrade LiteLLM** to a version that fixes the frontend login path. Check the [LiteLLM changelog](https://docs.litellm.ai/docs/changelog) for fixes to the `/login` endpoint before investing time in local workarounds.
+
+Do **not** document or rely on URL query-string token injection for admin access. Keep session tokens in cookies or normal server-side login flows only.
+
+**What you can do in the UI:**
+
+- View, create, update, and delete virtual keys.
+- Track per-key spend and remaining budget in real time.
+- Manage teams, users, and model allow-lists.
+- View request logs and model call statistics.
+- Configure caching, rate limits, and guardrails.
 
 ### 11. Deploy SearXNG (Docker, local-only)
 
@@ -461,6 +510,7 @@ Additional repair guidance:
 - If `claude-glm` shows the **interactive Anthropic model picker** after a wrapper edit, the wrapper failed to set `ANTHROPIC_MODEL` before `claude` started. Use `claude --model "$ANTHROPIC_MODEL"`, not `--model=$ANTHROPIC_MODEL` — Claude Code's CLI parser is tolerant of both, but quoting the value avoids surprises with model names containing slashes.
 - If `mcp list` reports `searxng: ! Failed` but `curl` to `:8788/mcp` works, check that the `--header` you registered exactly matches `Authorization: Bearer <token>`. Quotes and trailing spaces are silent killers.
 - If the laptop's outbound IP changed, **do not** widen SG to `0.0.0.0/0`. Add a new `/32` rule for the new IP and remove the stale rule.
+- If the LiteLLM UI login form returns `Invalid credentials` even though `UI_USERNAME`/`UI_PASSWORD` are correctly set in the env file, treat it as a likely version-specific UI bug. Verify the credentials first with `curl -X POST http://127.0.0.1:4000/login -H "Content-Type: application/x-www-form-urlencoded" -d "username=$UI_USERNAME&password=$UI_PASSWORD" -o /dev/null -w "%{http_code}\n"` — a `303` confirms the backend accepts them and the issue is UI-side. Prefer upgrading LiteLLM over inventing local admin-login workarounds.
 
 ## Output Expectations
 
