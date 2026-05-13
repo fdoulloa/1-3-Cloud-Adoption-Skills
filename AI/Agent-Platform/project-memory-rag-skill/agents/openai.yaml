@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Memory RAG"
+  short_description: "Project-level knowledge persistence with learned memory and document RAG"
+  default_prompt: "Use $project-memory-rag-skill to set up project-level knowledge persistence with learned memory, document RAG, GraphRAG, MCP integration, and skill-based procedural memory on Huawei Cloud."

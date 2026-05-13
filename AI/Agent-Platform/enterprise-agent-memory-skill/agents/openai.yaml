@@ -1,0 +1,4 @@
+interface:
+  display_name: "Enterprise Agent Memory"
+  short_description: "Cross-session persistent memory with auto-capture and tiered retrieval"
+  default_prompt: "Use $enterprise-agent-memory-skill to set up cross-session persistent memory for an agent with hook-based capture, AI compression, vector retrieval, privacy controls, and audit trails on Huawei Cloud."

@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0",
+  "index_name": "graph_entities_v1",
+  "embedding_dimensions": 1536,
+  "entity_types": ["system", "person", "organization", "api", "concept", "document"],
+  "relationship_types": ["depends_on", "calls", "owns", "implements", "related_to"],
+  "traversal": {
+    "max_depth": 3,
+    "min_weight": 0.5,
+    "default_direction": "both"
+  },
+  "community_detection": {
+    "enabled": true,
+    "algorithm": "louvain",
+    "min_community_size": 3
+  },
+  "entity_extraction": {
+    "model": "haiku",
+    "max_entities_per_chunk": 20,
+    "max_relationships_per_chunk": 30
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "version": "1.0.0",
+  "layers": {
+    "L1": {
+      "name": "working_context",
+      "storage": "in_context",
+      "max_tokens": 8192,
+      "lifecycle": "per_turn"
+    },
+    "L2": {
+      "name": "episodic_buffer",
+      "storage": "sqlite",
+      "max_tokens_per_session": 51200,
+      "lifecycle": "session",
+      "compression": "after_session"
+    },
+    "L3": {
+      "name": "skill_tree",
+      "storage": "markdown",
+      "directory": ".skills/",
+      "lifecycle": "persistent"
+    },
+    "L4": {
+      "name": "semantic_index",
+      "storage": "css_opensearch",
+      "index_prefix": "agent_memory_",
+      "dimensions": 1536,
+      "lifecycle": "persistent"
+    },
+    "L5": {
+      "name": "configuration",
+      "storage": "yaml",
+      "file": "memory_config.yaml",
+      "lifecycle": "manual"
+    }
+  },
+  "hooks": {
+    "tool_start": true,
+    "tool_end": true,
+    "session_start": true,
+    "session_end": true,
+    "error": true
+  },
+  "privacy": {
+    "exclusion_patterns": [],
+    "pii_detection": true,
+    "pii_storage_consent": false,
+    "redaction_mode": "replace",
+    "redaction_placeholder": "[REDACTED]"
+  },
+  "audit": {
+    "enabled": true,
+    "storage": "rds",
+    "retention_days": 365
+  }
+}

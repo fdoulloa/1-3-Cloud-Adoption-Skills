@@ -1,0 +1,45 @@
+{
+  "version": "1.0.0",
+  "tools": [
+    {
+      "name": "memory.search_learned",
+      "description": "Search learned memory for derived insights, patterns, and procedures",
+      "permission": "read",
+      "input_required": ["query"],
+      "input_optional": ["tags", "max_results", "min_confidence"]
+    },
+    {
+      "name": "memory.search_documents",
+      "description": "Search document RAG for authoritative information with citations",
+      "permission": "read",
+      "input_required": ["query"],
+      "input_optional": ["document_types", "max_results"]
+    },
+    {
+      "name": "memory.search_graph",
+      "description": "Search GraphRAG for entity relationships and multi-hop reasoning",
+      "permission": "read",
+      "input_required": ["query"],
+      "input_optional": ["entity", "max_depth", "direction"]
+    },
+    {
+      "name": "memory.store_insight",
+      "description": "Store a derived insight in learned memory for future retrieval",
+      "permission": "write",
+      "input_required": ["insight", "derived_from"],
+      "input_optional": ["tags", "confidence"]
+    },
+    {
+      "name": "memory.store_skill",
+      "description": "Store a procedural skill (how-to) in learned memory",
+      "permission": "write",
+      "input_required": ["skill_name", "procedure", "trigger_conditions"],
+      "input_optional": ["version"]
+    }
+  ],
+  "auth": {
+    "method": "project_api_key",
+    "read_tools": ["memory.search_learned", "memory.search_documents", "memory.search_graph"],
+    "write_tools": ["memory.store_insight", "memory.store_skill"]
+  }
+}

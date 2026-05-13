@@ -1,0 +1,43 @@
+{
+  "version": "1.0.0",
+  "compression": {
+    "strategy": "hybrid",
+    "threshold": 70,
+    "model": "haiku"
+  },
+  "recall_probes": {
+    "enabled": true,
+    "max_loss_rate": 5,
+    "critical_fact_extraction": true
+  },
+  "artifact_probes": {
+    "enabled": true,
+    "types": ["decision", "outcome", "file_change", "error", "pattern"]
+  },
+  "tiers": {
+    "t1": {
+      "storage": "css",
+      "index": "compression_t1_v1",
+      "max_tokens": 2000,
+      "loading": "always"
+    },
+    "t2": {
+      "storage": "css",
+      "index": "compression_t2_v1",
+      "max_tokens": 8000,
+      "loading": "on_relevance",
+      "relevance_threshold": 0.7
+    },
+    "t3": {
+      "storage": "obs",
+      "bucket_prefix": "hwc-compression-raw-",
+      "loading": "on_demand",
+      "lifecycle_days_to_glacier": 30
+    }
+  },
+  "token_budgets": {
+    "t1": 2000,
+    "t2": 8000,
+    "compression_max_ratio": 0.2
+  }
+}

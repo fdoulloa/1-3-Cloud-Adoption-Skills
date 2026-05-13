@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Context Compression and Retrieval"
+  short_description: "Automatic context compression with tiered recall and recall probes"
+  default_prompt: "Use $agent-context-compression-and-retrieval-skill to set up automatic context compression for an agent with tiered recall, recall probes, artifact probes, and token cost visibility on Huawei Cloud."

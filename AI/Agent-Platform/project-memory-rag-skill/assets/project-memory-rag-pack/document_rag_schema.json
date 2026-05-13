@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0",
+  "index_name": "document_chunks_v1",
+  "embedding_dimensions": 1536,
+  "chunk_config": {
+    "chunk_size": 512,
+    "chunk_overlap": 50,
+    "min_chunk_size": 100
+  },
+  "supported_formats": ["pdf", "docx", "txt", "md", "xlsx", "html"],
+  "ragflow_config": {
+    "parsing_method": "general",
+    "ocr_enabled": true,
+    "table_extraction": true,
+    "layout_analysis": true
+  },
+  "acl": {
+    "enabled": true,
+    "default_access": "project_members"
+  }
+}

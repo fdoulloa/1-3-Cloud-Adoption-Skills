@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "index_name": "learned_memory_v1",
+  "embedding_dimensions": 1536,
+  "entry_types": {
+    "insight": {
+      "fields": ["insight", "derived_from", "confidence", "tags", "derived_at"],
+      "required": ["insight", "derived_from"]
+    },
+    "skill": {
+      "fields": ["skill_name", "procedure", "trigger_conditions", "version", "prerequisites", "pitfalls"],
+      "required": ["skill_name", "procedure", "trigger_conditions", "version"]
+    },
+    "pattern": {
+      "fields": ["pattern", "evidence", "occurrences", "tags"],
+      "required": ["pattern", "evidence"]
+    }
+  },
+  "staleness": {
+    "fresh_days": 7,
+    "check_days": 30,
+    "invalidate_on_source_change": true
+  },
+  "conflict_resolution": "document_rag_wins"
+}
