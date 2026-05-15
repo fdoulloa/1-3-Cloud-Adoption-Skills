@@ -52,8 +52,7 @@ The side-by-side script configures:
 - `~/.config/systemd/user/claude-glm-ccr-health.timer`
 - `ANTHROPIC_MODEL=glm-5.1` only inside the `claude-glm` wrapper
 - `ANTHROPIC_CUSTOM_MODEL_OPTION=glm-5.1` only inside the `claude-glm` wrapper
-- `CLAUDE_CODE_MAX_CONTEXT_TOKENS=190000` only inside the `claude-glm` wrapper
-- `DISABLE_COMPACT=true` only inside the `claude-glm` wrapper so Claude Code honors the 190K context override
+- `CLAUDE_CODE_MAX_CONTEXT_TOKENS=120000` only inside the `claude-glm` wrapper
 - `claude --model glm-5.1` only from the `claude-glm` wrapper, so the interactive header also selects `glm-5.1`
 - background startup and readiness checks for `ccr` when the router is not already running
 - real router health checks against `http://127.0.0.1:3456/`, so stale pid/status files do not cause `FailedToOpenSocket` or `ConnectionRefused` retries
@@ -119,7 +118,7 @@ The script configures:
 - for migration mode, a `claude` wrapper that exports the router environment
 - `ANTHROPIC_MODEL=glm-5.1`
 - `ANTHROPIC_CUSTOM_MODEL_OPTION=glm-5.1`
-- `CLAUDE_CODE_MAX_CONTEXT_TOKENS=190000`
+- `CLAUDE_CODE_MAX_CONTEXT_TOKENS=120000`
 
 It also runs a smoke test and expects the result to report `modelUsage.glm-5.1`.
 
