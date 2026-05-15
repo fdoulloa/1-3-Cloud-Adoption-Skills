@@ -45,14 +45,65 @@ The side-by-side script configures:
 - `~/.config/claude-glm/env`
 - `~/.local/bin/claude-glm`
 - `~/.local/bin/Claude-glm`
+- `~/.local/bin/claude-glm-ccr-run`
+- `~/.local/bin/claude-glm-ccr-health`
+- `~/.config/systemd/user/claude-glm-ccr.service`
+- `~/.config/systemd/user/claude-glm-ccr-health.service`
+- `~/.config/systemd/user/claude-glm-ccr-health.timer`
 - `ANTHROPIC_MODEL=glm-5.1` only inside the `claude-glm` wrapper
 - `ANTHROPIC_CUSTOM_MODEL_OPTION=glm-5.1` only inside the `claude-glm` wrapper
 - `CLAUDE_CODE_MAX_CONTEXT_TOKENS=190000` only inside the `claude-glm` wrapper
 - `DISABLE_COMPACT=true` only inside the `claude-glm` wrapper so Claude Code honors the 190K context override
 - `claude --model glm-5.1` only from the `claude-glm` wrapper, so the interactive header also selects `glm-5.1`
 - background startup and readiness checks for `ccr` when the router is not already running
+- real router health checks against `http://127.0.0.1:3456/`, so stale pid/status files do not cause `FailedToOpenSocket` or `ConnectionRefused` retries
+- stop/start race handling: if `ccr` is unhealthy, the wrapper stops it, waits for the old process to release, then waits up to 30 seconds for the restarted router to become healthy
+- persistent `ccr` startup through a systemd user service when systemd is available
+- a systemd health timer that checks the local router every 60 seconds and restarts the service when status or socket health fails
+- `loginctl enable-linger` on best effort, so the user service can start with the user manager instead of waiting for an interactive shell
 
 It also runs a smoke test and expects the result to report `modelUsage.glm-5.1`.
+
+Set `INSTALL_SYSTEMD_USER_SERVICE=0` before running the script to skip systemd service installation and keep wrapper-only startup.
+
+## Persistent CCR Service
+
+On Linux or WSL environments with a running systemd user manager, `./scripts/configure-claude-glm.sh` installs and enables:
+
+```text
+claude-glm-ccr.service
+claude-glm-ccr-health.timer
+```
+
+Check the persistent router state:
+
+```bash
+systemctl --user status claude-glm-ccr.service --no-pager
+systemctl --user list-timers claude-glm-ccr-health.timer --no-pager
+loginctl show-user "$USER" -p Linger
+```
+
+The service runs `ccr start` with the same private `~/.config/claude-glm/env` values used by `claude-glm`. The timer runs a real health probe against `http://127.0.0.1:3456/` every 60 seconds and restarts the service if the router is stale, stopped, or no longer accepting local requests.
+
+## Local Router Recovery
+
+When Claude Code reports errors such as:
+
+```text
+Unable to connect to API (FailedToOpenSocket)
+ConnectionRefused: http://127.0.0.1:3456/v1/messages?beta=true
+ccr failed to start; see /tmp/claude-glm-ccr.log
+```
+
+Check the local router before changing MaaS credentials:
+
+```bash
+ccr status
+ss -ltnp | grep ':3456'
+curl -fsS -H "Authorization: Bearer ${CLAUDE_GLM_ROUTER_KEY:-claude-glm-local}" http://127.0.0.1:3456/
+```
+
+If `ccr status` says running but the curl check fails, the router state is stale. Re-run `./scripts/configure-claude-glm.sh` or use the generated `claude-glm` wrapper; it now stops stale `ccr`, waits for shutdown, starts it in the background, and verifies the local socket before launching Claude Code.
 
 To wrap plain `claude` instead:
 
