@@ -15,8 +15,8 @@ Use this skill to route Claude Code through `claude-code-router` (`ccr`) to Huaw
 2. If the user wants to preserve the original Claude Code command, run `scripts/configure-claude-glm.sh` from this skill. Defaults match the tested setup:
    - base URL: `https://api-ap-southeast-1.modelarts-maas.com/openai/v1`
    - model: `glm-5.1`
-   - context tokens: `190000`
-   - max output tokens: `32768`
+   - context tokens: `120000`
+   - max output tokens: `8192`
 3. Verify both the router and Claude Code:
    - `ccr status`
    - `systemctl --user status claude-glm-ccr.service --no-pager` when systemd user services are available
@@ -45,8 +45,8 @@ Override defaults when needed:
 ```bash
 MAAS_BASE_URL='https://api-ap-southeast-1.modelarts-maas.com/openai/v1' \
 MAAS_MODEL='glm-5.1' \
-MAAS_CONTEXT_TOKENS=190000 \
-MAAS_MAX_OUTPUT_TOKENS=32768 \
+MAAS_CONTEXT_TOKENS=120000 \
+MAAS_MAX_OUTPUT_TOKENS=8192 \
 /root/.codex/skills/claude-code-huawei-maas/scripts/configure.sh
 ```
 
@@ -77,7 +77,6 @@ export Z_API_KEY='...'
   - `ANTHROPIC_MODEL=<model>`
   - `ANTHROPIC_CUSTOM_MODEL_OPTION=<model>`
   - `CLAUDE_CODE_MAX_CONTEXT_TOKENS=<context>`
-  - `DISABLE_COMPACT=true`, required by Claude Code 2.1.133 for `CLAUDE_CODE_MAX_CONTEXT_TOKENS` to override the default `200000` context window
 - Starts `ccr` in the background when needed, validates the router with a real `http://127.0.0.1:3456/` health check instead of trusting only the pid/status file, and runs the real `claude` command with `--model <model>` unless the user already passed `--model` or invoked a Claude Code management subcommand.
 - If `ccr status` is stale or the router socket is closed, stops `ccr`, waits briefly for the old process/port to release, then waits up to 30 seconds for the restarted router to become healthy.
 - Keeps `ccr` resident through a systemd user service when supported, enables a 60-second health timer that restarts the service on failed status/socket checks, and best-effort enables user lingering with `loginctl enable-linger`.
@@ -113,7 +112,7 @@ npm install -g @musistudio/claude-code-router
       "models": ["glm-5.1"],
       "transformer": {
         "use": [
-          ["maxtoken", { "max_tokens": 32768 }],
+          ["maxtoken", { "max_tokens": 8192 }],
           "cleancache",
           "enhancetool"
         ]
@@ -125,7 +124,7 @@ npm install -g @musistudio/claude-code-router
     "background": "huawei-maas,glm-5.1",
     "think": "huawei-maas,glm-5.1",
     "longContext": "huawei-maas,glm-5.1",
-    "longContextThreshold": 190000
+    "longContextThreshold": 120000
   }
 }
 ```
@@ -179,8 +178,7 @@ export ANTHROPIC_MODEL=glm-5.1
 export ANTHROPIC_CUSTOM_MODEL_OPTION=glm-5.1
 export ANTHROPIC_CUSTOM_MODEL_OPTION_NAME=glm-5.1
 export ANTHROPIC_CUSTOM_MODEL_OPTION_DESCRIPTION='Huawei Cloud MaaS glm-5.1'
-export DISABLE_COMPACT=true
-export CLAUDE_CODE_MAX_CONTEXT_TOKENS=190000
+export CLAUDE_CODE_MAX_CONTEXT_TOKENS=120000
 unset CLAUDE_CODE_USE_BEDROCK
 
 ccr_healthy() {
@@ -279,7 +277,7 @@ Successful output should include:
 ```json
 "modelUsage": {
   "glm-5.1": {
-    "contextWindow": 190000
+    "contextWindow": 120000
   }
 }
 ```
@@ -310,8 +308,7 @@ Successful output should show `Status: ✓ Connected`. If it is connected, Claud
 - **Z.ai MCP fails with auth errors**: Confirm the user has a Z.ai account, the API key is active, and the environment variable name is exactly `Z_API_KEY`.
 - **Z.ai MCP was added with a literal `${Z_API_KEY}` header**: Replace the static `headers` entry with `headersHelper` so Claude Code reads the current environment at runtime.
 - **`curl` fails with shared library errors**: Use Node `fetch` or `claude --print` for verification instead of curl.
-- **Long context mismatch**: Treat `190k` as context length, not output length. Keep `maxtoken.max_tokens` as a generation cap such as `32768`; set `CLAUDE_CODE_MAX_CONTEXT_TOKENS=190000`.
-- **`contextWindow` still reports `200000`**: In Claude Code 2.1.133, `CLAUDE_CODE_MAX_CONTEXT_TOKENS` only overrides the default when `DISABLE_COMPACT=true` is also set in the wrapper.
+- **Long context mismatch**: Treat `120k` as context length, not output length. Keep `maxtoken.max_tokens` as a generation cap such as `8192`; set `CLAUDE_CODE_MAX_CONTEXT_TOKENS=120000`.
 - **Existing `claude` wrapper**: Preserve user changes. Inspect the wrapper before replacing it, and keep the original binary or script as `.real`.
 
 ## Resources
