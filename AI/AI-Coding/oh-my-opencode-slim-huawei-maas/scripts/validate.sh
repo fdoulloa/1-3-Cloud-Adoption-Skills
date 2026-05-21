@@ -201,9 +201,9 @@ echo ""
 # ── 7. LiteLLM model availability ──
 echo "7. LiteLLM model availability (via proxy)"
 if [ "$DRY_RUN" = true ]; then
-  for model in glm-5.1 glm-5 deepseek-v4-pro deepseek-v4-flash deepseek-v3.2; do
-    skip_check "Model $model available"
-  done
+  skip_check "Model catalog reachable"
+  skip_check "Upstream health (all models)"
+  skip_check "Inference smoke test"
 else
   VIRTUAL_KEY=""
   if [ -n "$CONFIG_FILE" ]; then
@@ -214,16 +214,94 @@ else
     VIRTUAL_KEY="${LITELLM_MASTER_KEY:-}"
   fi
 
-  if [ -n "$VIRTUAL_KEY" ]; then
-    for model in glm-5.1 glm-5 deepseek-v4-pro deepseek-v4-flash deepseek-v3.2; do
-      check "Model $model available" curl -sf -m 10 "$LITELLM_URL/v1/chat/completions" \
-        -H "Authorization: Bearer $VIRTUAL_KEY" \
-        -H "Content-Type: application/json" \
-        -d "{\"model\": \"$model\", \"messages\": [{\"role\": \"user\", \"content\": \"OK\"}], \"max_tokens\": 1}"
-    done
-  else
+  if [ -z "$VIRTUAL_KEY" ]; then
     echo "  ✗ No API key available for model checks"
-    FAIL=$((FAIL + 5))
+    FAIL=$((FAIL + 3))
+  else
+    # ── 7a. Tier 1: Model catalog (/v1/models) ──
+    # Discovers all registered models. Zero cost, zero rate-limit risk.
+    MODELS_JSON=$(curl -sf -m 10 "$LITELLM_URL/v1/models" \
+      -H "Authorization: Bearer $VIRTUAL_KEY" 2>/dev/null)
+
+    if [ -z "$MODELS_JSON" ] || ! printf '%s' "$MODELS_JSON" | jq -e '.data | length > 0' >/dev/null 2>&1; then
+      echo "  ✗ Model catalog not reachable or empty"
+      FAIL=$((FAIL + 3))
+    else
+      check "Model catalog reachable" true
+
+      MODEL_COUNT=$(printf '%s' "$MODELS_JSON" | jq '.data | length' 2>/dev/null)
+      MODEL_LIST=$(printf '%s' "$MODELS_JSON" | jq -r '.data[].id' 2>/dev/null)
+      echo "  ℹ Discovered $MODEL_COUNT model(s): $(echo "$MODEL_LIST" | tr '\n' ' ' | sed 's/ $//')"
+
+      # ── 7b. Tier 2: Upstream health (/health) ──
+      # LiteLLM probes each upstream model and reports healthy/unhealthy.
+      # Zero cost, no rate-limit risk, no inference tokens.
+      HEALTH_JSON=$(curl -sf -m 10 "$LITELLM_URL/health" \
+        -H "Authorization: Bearer $VIRTUAL_KEY" 2>/dev/null)
+
+      if [ -z "$HEALTH_JSON" ]; then
+        echo "  ✗ /health endpoint not reachable"
+        FAIL=$((FAIL + 2))
+      else
+        HEALTHY=$(printf '%s' "$HEALTH_JSON" | jq -r '.healthy_count // 0' 2>/dev/null)
+        UNHEALTHY=$(printf '%s' "$HEALTH_JSON" | jq -r '.unhealthy_count // 0' 2>/dev/null)
+
+        if [ "$UNHEALTHY" = "0" ] 2>/dev/null; then
+          check "Upstream health (all models)" true
+          echo "  ℹ All $HEALTHY model(s) healthy upstream"
+        else
+          echo "  ✗ $UNHEALTHY model(s) unhealthy upstream ($HEALTHY healthy)"
+          FAIL=$((FAIL + 1))
+
+          # Report which models are unhealthy
+          UNHEALTHY_LIST=$(printf '%s' "$HEALTH_JSON" | jq -r '.unhealthy_models // [] | .[] | .model // .model_name // empty' 2>/dev/null)
+          if [ -n "$UNHEALTHY_LIST" ]; then
+            echo "  ℹ Unhealthy: $(echo "$UNHEALTHY_LIST" | tr '\n' ' ' | sed 's/ $//')"
+          fi
+        fi
+
+        # ── 7c. Tier 3: Parallel inference smoke test ──
+        # Fire minimal chat completions at ALL models in parallel.
+        # Any one success proves the full inference path works.
+        # Wall-clock time bounded by fastest model, not slowest.
+        SMOKE_PIDS=()
+        SMOKE_MODELS=()
+        for model in $MODEL_LIST; do
+          BODY=$(jq -nc --arg m "$model" '{model: $m, messages: [{role: "user", content: "ok"}]}')
+          curl -sf -m 30 "$LITELLM_URL/v1/chat/completions" \
+            -H "Authorization: Bearer $VIRTUAL_KEY" \
+            -H "Content-Type: application/json" \
+            -d "$BODY" >/dev/null 2>&1 &
+          SMOKE_PIDS+=($!)
+          SMOKE_MODELS+=("$model")
+        done
+
+        # Collect results — count successes and failures
+        SMOKE_PASS=0
+        SMOKE_FAIL=0
+        SMOKE_FAIL_LIST=""
+        for i in "${!SMOKE_PIDS[@]}"; do
+          if wait "${SMOKE_PIDS[$i]}" 2>/dev/null; then
+            SMOKE_PASS=$((SMOKE_PASS + 1))
+          else
+            SMOKE_FAIL=$((SMOKE_FAIL + 1))
+            SMOKE_FAIL_LIST="$SMOKE_FAIL_LIST ${SMOKE_MODELS[$i]}"
+          fi
+        done
+        SMOKE_TOTAL=$((SMOKE_PASS + SMOKE_FAIL))
+
+        if [ "$SMOKE_PASS" -gt 0 ]; then
+          check "Inference smoke test (parallel)" true
+          echo "  ℹ $SMOKE_PASS/$SMOKE_TOTAL model(s) responded to inference"
+          if [ "$SMOKE_FAIL" -gt 0 ]; then
+            echo "  ⚠ No response from:$(echo "$SMOKE_FAIL_LIST" | sed 's/^ //')"
+          fi
+        else
+          echo "  ✗ No models responded to inference (0/$SMOKE_TOTAL)"
+          FAIL=$((FAIL + 1))
+        fi
+      fi
+    fi
   fi
 fi
 echo ""
