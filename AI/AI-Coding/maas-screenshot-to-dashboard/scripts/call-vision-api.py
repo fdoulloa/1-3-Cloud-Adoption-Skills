@@ -12,6 +12,8 @@ Example:
 import argparse
 import base64
 import json
+import os
+from pathlib import Path
 import sys
 import urllib.request
 
@@ -27,11 +29,12 @@ DEFAULT_PROMPT = """请详细分析这张看板截图的所有内容，包括：
 
 请尽可能详细和准确地提取所有可见信息。"""
 
-SETTINGS_PATH = "/root/.claude/settings.json"
+DEFAULT_SETTINGS_PATH = Path.home() / ".claude" / "settings.json"
 
 
 def get_api_key():
-    with open(SETTINGS_PATH) as f:
+    settings_path = Path(os.environ.get("CLAUDE_SETTINGS_PATH", DEFAULT_SETTINGS_PATH)).expanduser()
+    with open(settings_path) as f:
         settings = json.load(f)
     return settings["mcpServers"]["openvision"]["env"]["OPENROUTER_API_KEY"]
 
