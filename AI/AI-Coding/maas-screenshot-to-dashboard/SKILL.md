@@ -107,11 +107,12 @@ npm install -D vite @vitejs/plugin-react typescript puppeteer sharp pixelmatch p
 
 ```python
 import json, base64, urllib.request
+from pathlib import Path
 
 with open("<screenshot_path>", "rb") as f:
     img_b64 = base64.b64encode(f.read()).decode()
 
-with open("/root/.claude/settings.json") as f:
+with open(Path.home() / ".claude" / "settings.json") as f:
     settings = json.load(f)
 api_key = settings["mcpServers"]["openvision"]["env"]["OPENROUTER_API_KEY"]
 
