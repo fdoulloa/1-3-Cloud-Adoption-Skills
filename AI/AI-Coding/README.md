@@ -39,6 +39,7 @@ These skills use MaaS-backed AI coding agents as enterprise engineering tools, n
 - [maas-code-review-and-security-skill](./maas-code-review-and-security-skill/README.md): Run structured code review and security audit with evidence-based findings and OWASP classification.
 - [maas-spec-plan-build-test-skill](./maas-spec-plan-build-test-skill/README.md): Execute the Spec to Plan to Build to Test engineering workflow with gated phase transitions.
 - [maas-legacy-code-migration-skill](./maas-legacy-code-migration-skill/README.md): Understand, refactor, and migrate legacy code (Java/COBOL/.NET) with reviewable batch transforms.
+- [maas-screenshot-to-dashboard](./maas-screenshot-to-dashboard/README.md): End-to-end screenshot-to-dashboard pipeline using MaaS vision models for image analysis, anydesign for design token extraction, CCPM for planning, and React+Ant Design+ECharts for implementation with screenshot comparison iteration.
 
 ## Shared Resources
 
