@@ -52,4 +52,7 @@ if (!original || !generated) {
   process.exit(1);
 }
 
-compare(original, generated, diff).catch(console.error);
+compare(original, generated, diff).catch((error) => {
+  console.error(error);
+  process.exit(1);
+});
