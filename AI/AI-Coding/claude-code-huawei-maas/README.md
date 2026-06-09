@@ -6,6 +6,7 @@ It is intended for operators who want either:
 
 - side-by-side commands where `claude` continues using Anthropic Claude models and `claude-glm` uses Huawei MaaS `glm-5.1`
 - a full migration where the installed `claude` command is wrapped to use a ModelArts MaaS endpoint
+- Claude Code search prompts routed through CCR to a LiteLLM callback that injects Exa search results
 
 ## Scope
 
@@ -19,6 +20,28 @@ claude-glm CLI
   -> claude-code-router on http://127.0.0.1:3456
   -> Huawei Cloud MaaS OpenAI-compatible /chat/completions
   -> glm-5.1
+```
+
+Optional LiteLLM-backed search scope:
+
+```text
+Claude Code search prompt
+  -> claude-code-router on http://127.0.0.1:3456
+  -> CCR bridge removes local WebSearch/WebFetch tools for search-intent prompts
+  -> LiteLLM /v1/responses
+  -> LiteLLM custom_callbacks.py calls Exa and injects source snippets
+  -> Huawei Cloud MaaS glm-5.1 answers normally
+```
+
+Optional image scope:
+
+```text
+Claude Code image prompt
+  -> claude-code-router image route
+  -> LiteLLM /v1/chat/completions
+  -> LiteLLM custom_callbacks.py detects image blocks
+  -> LiteLLM rewrites model to vision-openrouter
+  -> OpenRouter vision model answers
 ```
 
 Legacy full migration scope:
@@ -67,6 +90,17 @@ The side-by-side script configures:
 It also runs a smoke test and expects the result to report `modelUsage.glm-5.1`.
 
 Set `INSTALL_SYSTEMD_USER_SERVICE=0` before running the script to skip systemd service installation and keep wrapper-only startup.
+
+To prepare CCR for LiteLLM-backed search, route `claude-glm` through a LiteLLM provider that uses `custom_callbacks.py`, set `EXA_API_KEY` in the LiteLLM runtime environment, then run:
+
+```bash
+./scripts/configure-ccr-search.py --dry-run
+./scripts/configure-ccr-search.py --apply
+```
+
+The CCR bridge does not call Exa itself. It converts the request path for LiteLLM Responses compatibility and removes Claude Code local search/fetch tools for search-intent prompts, so GLM is not asked to emit fragile tool-call JSON. Live search is performed by the LiteLLM callback when `EXA_API_KEY` is configured. Normal `claude-glm` requests still route through the configured provider.
+
+For image inputs, configure the LiteLLM proxy with `OpenRouter_API_KEY` and the `vision-openrouter` model group from `LiteLLM-Huawei-MaaS-Proxy`. The LiteLLM callback automatically rewrites image requests to that model group.
 
 ## Persistent CCR Service
 
@@ -190,10 +224,12 @@ claude-code-huawei-maas/
 │   └── openai.yaml
 └── scripts/
     ├── claude-glm-recover.sh
+    ├── configure-ccr-search.py
     ├── configure-claude-glm.sh
+    ├── configure-zai-search-mcp.sh
     └── configure.sh
 ```
 
 ## Security
 
-Do not commit a real MaaS API key. The side-by-side script writes `api_key: "$HUAWEI_MAAS_API_KEY"` into the router config and stores the local secret in `~/.config/claude-glm/env` with `0600` permissions. The legacy migration script writes `api_key: "$API_KEY"` into the router config so the secret remains in the runtime environment.
+Do not commit a real MaaS API key. The side-by-side script writes `api_key: "$HUAWEI_MAAS_API_KEY"` into the router config and stores the local secret in `~/.config/claude-glm/env` with `0600` permissions. The legacy migration script writes `api_key: "$API_KEY"` into the router config so the secret remains in the runtime environment. The CCR search script edits config and transformer files but does not print environment values or API keys. Keep `EXA_API_KEY`, `OpenRouter_API_KEY`, and LiteLLM virtual keys only in the LiteLLM or CCR runtime environment.
